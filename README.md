@@ -1,1 +1,3 @@
 # Statisk
+
+![screenshot](screenshot.png)
