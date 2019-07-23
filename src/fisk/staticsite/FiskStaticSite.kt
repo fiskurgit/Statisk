@@ -87,6 +87,9 @@ class Generator {
 
         var output = templateHtml.replace("{{ content }}", convertedHtml)
 
+        //Update images for css
+        output = output.replace("<p><img src=\"", "<p class=\"img\"><img src=\"")
+
         //Extract title from Markdown
         val firstTitleNode = parsedTree.children.firstOrNull { it.type.name =="ATX_1" }
         val title = when {
@@ -154,23 +157,24 @@ class Generator {
         val destination = BufferedImage(resized.width, resized.height, BufferedImage.TYPE_INT_RGB)
         val destinationImpl = FilterImageImpl(destination)
 
-        Filter.FilterAtkinson().process(FilterImageImpl(resized), destinationImpl)
+        Filter.FilterJarvisJudiceNinke().process(FilterImageImpl(resized), destinationImpl)
 
         val outputFile = File(saveDir, source.substring(0, source.lastIndexOf(".")) + "_dithered.jpg")
         val dithered = destinationImpl.image
+
+
+        //Uncompressed png
         //ImageIO.write(dithered, "png", outputFile)
 
 
         val jpegParams = JPEGImageWriteParam(null)
         jpegParams.compressionMode = ImageWriteParam.MODE_EXPLICIT
-        jpegParams.compressionQuality = 0.1f
+        jpegParams.compressionQuality = 0.5f
 
         val writer = ImageIO.getImageWritersByFormatName("jpg").next()
         writer.output = FileImageOutputStream(outputFile)
         writer.write(null, IIOImage(dithered, null, null), jpegParams)
 
-
-        //ImageIO.write(dithered, "jpeg", outputFile)
 
         return outputFile.name
     }

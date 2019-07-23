@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
     body{
-        background: rgb(255, 252, 223);
+        background: #f1f8fe;
         color: black;
         padding: 12px;
         font-family: Sans-Serif;
         font-size: 14pt;
-        width: 960px;
+        max-width: 960px;
+        display: block;
     }
-    p{
+    p.img{
         mix-blend-mode: multiply;
+        background-color: #ff8888;
     }
     img{
-      max-width: 960px;
-
+        max-width: 100%;
+        mix-blend-mode: hard-light;
     }
     footer{
         font-size: 0.75rem;

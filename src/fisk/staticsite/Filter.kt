@@ -15,7 +15,7 @@ abstract class Filter {
         var threshold = 128
 
         const val BLACK = 0x000000
-        const val WHITE = 0xfffce2
+        const val WHITE = 0xFFFFFF
     }
 
     abstract fun process(source: FilterImage, destination: FilterImage)
