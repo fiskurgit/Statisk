@@ -1,6 +1,5 @@
 package fisk.staticsite
 
-import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
 import org.intellij.markdown.html.HtmlGenerator
 import org.intellij.markdown.parser.MarkdownParser
@@ -16,10 +15,6 @@ import javax.imageio.IIOImage
 import javax.imageio.stream.FileImageOutputStream
 import java.text.DecimalFormat
 
-
-
-//Build issues resolved here: https://github.com/valich/intellij-markdown/issues/18
-
 fun main(args: Array<String>) {
     if(args.isEmpty() || args[0] == "help"){
         Generator().help()
@@ -32,36 +27,37 @@ fun main(args: Array<String>) {
 
 class Generator {
 
-    private var bytes = 0L
+    private var pageBytes = 0L
 
     companion object {
-        fun out(message: String) {
-            System.out.println(message)
+        fun l(message: String) {
+            println(message)
         }
     }
 
     fun help(){
-        out("F I S K Static Site Generator")
-        out("")
-        out("HELP")
+        l("S T A T I S K Site Generator")
+        l("")
+        l("HELP")
     }
 
     fun build(markdownFileRef: String, templateFileRef: String) {
-        out("")
-        out("F I S K Static Site Generator")
-        out("")
+        l("")
+        l("S T A T I S K Site Generator")
+        l("")
 
         val mdFile = File(markdownFileRef)
         val templateFile = File(templateFileRef)
 
         if(mdFile.exists() && markdownFileRef.toLowerCase().endsWith(".md") && templateFile.exists()){
+            //todo - check if mdFile is directory, then use recursive method to bulk convert
             parseMarkdown(mdFile, templateFile)
         }else{
             if(!mdFile.exists()) {
-                out("Error: $markdownFileRef does not exist or is not a Markdown file")
+                l("Error: $markdownFileRef does not exist or is not a Markdown file")
             }
             if(!templateFile.exists()) {
-                out("Error: $templateFileRef does not exist")
+                l("Error: $templateFileRef does not exist")
             }
 
             System.exit(-1)
@@ -69,7 +65,7 @@ class Generator {
     }
 
     private fun parseMarkdown(mdFile: File, template: File){
-        out("parsing Markdown...")
+        l("parsing Markdown...")
 
         val sourceMd = mdFile.readText()
 
@@ -99,18 +95,20 @@ class Generator {
         output = output.replace("{{ title }}", title)
 
 
-        bytes += output.toByteArray().size
-        output = output.replace("{{ page_size }}", "Page size including images: ${readableFileSize(bytes)}")
+        pageBytes += output.toByteArray().size
+        output = output.replace("{{ page_size }}", "Page size including images: ${readableFileSize(pageBytes)}")
 
         val outputFile = File(mdFile.dir(), mdFile.nameWithoutExtension + ".html")
         outputFile.writeText(output, Charsets.UTF_8)
 
-        out("${mdFile.name} converted to ${outputFile.name}")
+        l("${mdFile.name} converted to ${outputFile.name}")
+
+        //ends
     }
 
     fun readableFileSize(size: Long): String {
         if (size <= 0) return "0"
-        val units = arrayOf("bytes", "kb", "MB", "GB", "TB")
+        val units = arrayOf("pageBytes", "kb", "MB", "GB", "TB")
         val digitGroups = (Math.log10(size.toDouble()) / Math.log10(1024.0)).toInt()
         return DecimalFormat("#,##0.#").format(
             size / Math.pow(
@@ -122,9 +120,9 @@ class Generator {
 
     private fun convertImages(saveDir: File, _html: String): String{
         var html = _html
-        out("Find images in: \n$html")
-        out("")
-        out("")
+        l("Find images in: \n$html")
+        l("")
+        l("")
         val imagesPattern= Pattern.compile("(?:<img[^>]*src=\")([^\"]*)",Pattern.CASE_INSENSITIVE)
         val imagesMatcher = imagesPattern.matcher(html)
 
@@ -132,13 +130,13 @@ class Generator {
 
         while (imagesMatcher.find()) {
             val image = imagesMatcher.group(1)
-            out("Image found: $image")
+            l("Image found: $image")
             images.add(image)
         }
 
         for(image in images){
             val converted = convertImage(saveDir, image)
-            bytes += fileSize(converted)
+            pageBytes += fileSize(converted)
             html = html.replace(image, converted)
         }
 
