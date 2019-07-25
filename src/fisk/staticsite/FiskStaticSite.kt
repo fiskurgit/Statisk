@@ -134,7 +134,7 @@ class Generator {
 
 
         pageBytes += output.toByteArray().size
-        output = output.replace("{{ page_size }}", readableFileSize(pageBytes))
+        output = output.replace("{{ page_size }}", "Page size including images: ${readableFileSize(pageBytes)}")
 
         val outputFile = File(mdFile.dir(), mdFile.nameWithoutExtension + ".html")
         outputFile.writeText(output, Charsets.UTF_8)
