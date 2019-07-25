@@ -51,6 +51,7 @@ class Generator {
         }
 
         const val TEMPLATE = "_template.html"
+        const val MAX_IMG_WIDTH = 960
     }
 
     fun help(){
@@ -127,7 +128,7 @@ class Generator {
 
                                 linkBuilder.append("<a href=\"")
                                 linkBuilder.append("${link.link}\">")
-                                linkBuilder.append("${link.date} ${link.title}</href><br>")
+                                linkBuilder.append("${link.date} ${link.title}</a><br>")
                             }
 
                             val htmlIndex = File(index.path.replace(".md", ".html"))
@@ -234,7 +235,7 @@ class Generator {
         l("${mdFile.name} converted to ${outputFile.name}")
         d(outputFile.absolutePath)
 
-        if(!isIndex) {
+        if(!isIndex && outputFile.name.endsWith("index.html")) {
             val hrefLink = "." + outputFile.absolutePath.replace(webroot!!.absolutePath, "")
             d("hrefLink: $hrefLink")
 
@@ -295,7 +296,7 @@ class Generator {
     private fun convertImage(saveDir: File, source: String): String{
         val sourceImage = ImageIO.read(File(source))
 
-        val resized = if(sourceImage.width > 800){resize(sourceImage, 800)}else{sourceImage}
+        val resized = if(sourceImage.width > MAX_IMG_WIDTH){resize(sourceImage, MAX_IMG_WIDTH)}else{sourceImage}
         val destination = BufferedImage(resized.width, resized.height, BufferedImage.TYPE_BYTE_GRAY)
         val destinationImpl = FilterImageImpl(destination)
 
