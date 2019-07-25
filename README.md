@@ -61,12 +61,16 @@ Markdown posts need to be in a Year/Month/Day (`YYYY/MM/DD`) directory structure
 
 ## Filter Override
 
-Not all images look great with the default filter settings. To overrride add `filter_override` to the image name followed by the filter (See Filter.kt). To override the standard threshold value of 128 end the filename with `_255.jpeg`, you must also override the filter to trigger this, eg.
+Not all images look great with the default filter settings. To override add `filter_override` to the image name followed by the filter (See Filter.kt). To override the standard threshold value of 128 end the filename with `_255.jpeg`, you must also override the filter to trigger this, eg.
 
 ```example_filter_override_8by8Bayer_255.jpeg```
 
 
-To keep the original image entirely add `no_filter`, eg:
+To keep the original image entirely add `no_transform`, eg:
+
+```example_no_transform.jpeg```
+
+To have no filter but still scale the image to a reasonable size use `no_filter`:
 
 ```example_no_filter.jpeg```
 

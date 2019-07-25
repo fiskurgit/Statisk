@@ -39,7 +39,7 @@ class Generator {
     var links = mutableListOf<Link>()
 
     private var pageBytes = 0L
-
+    private var isSingle = false
     private var webroot: File? = null
 
     companion object {
@@ -90,6 +90,7 @@ class Generator {
             fileA.exists() && fileARef.toLowerCase().endsWith(".md") && fileB.exists() && fileBRef != null && fileBRef.endsWith(TEMPLATE) -> {
                 //We're converting a single file with a supplied template
                 d("MODE: Single index.md with supplied template")
+                isSingle = true
                 parseMarkdown(fileA, fileB, false)
             }
             fileA.exists() && fileARef.toLowerCase().endsWith(".md") -> {
@@ -101,7 +102,7 @@ class Generator {
                 d("Looking for $TEMPLATE in $rootDir")
 
                 val template = File(rootDir, TEMPLATE)
-
+                isSingle = true
                 when {
                     template.exists() -> parseMarkdown(fileA, template, false)
                     else -> die("Could not find _template.html, check it exists in root and post directory structure is correct")
@@ -111,7 +112,7 @@ class Generator {
             fileA.exists() && fileA.isDirectory -> {
                 //The full iterative flow
                 d("MODE: Full directory flow")
-
+                isSingle = false
                 val template = File(fileA, TEMPLATE)
 
                 when {
@@ -240,7 +241,7 @@ class Generator {
         l("${mdFile.name} converted to ${outputFile.name}")
         d(outputFile.absolutePath)
 
-        if(!isIndex && outputFile.name.endsWith("index.html")) {
+        if(!isSingle && !isIndex && outputFile.name.endsWith("index.html")) {
             val hrefLink = "." + outputFile.absolutePath.replace(webroot!!.absolutePath, "")
             d("hrefLink: $hrefLink")
 
@@ -286,7 +287,7 @@ class Generator {
 
         for(image in images){
 
-            if(image.contains("no_filter")){
+            if(image.contains("no_transform")){
                 pageBytes += fileSize(File(saveDir, image).path)
             }else {
                 val converted = convertImage(saveDir, image)
@@ -325,15 +326,17 @@ class Generator {
 
         val resized = if(sourceImage.width > MAX_IMG_WIDTH){resize(sourceImage, MAX_IMG_WIDTH)}else{sourceImage}
         val destination = BufferedImage(resized.width, resized.height, BufferedImage.TYPE_BYTE_GRAY)
-        val destinationImpl = FilterImageImpl(destination)
+        var destinationImpl = FilterImageImpl(destination)
 
-
-        if(source.contains("filter_override")){
+        if(source.contains("no_filter")) {
+            destinationImpl = FilterImageImpl(resized)
+        }else if(source.contains("filter_override")){
             val filterOverride = Filter.find(source)
             if(filterOverride != null){
                 val thresholdOverrideStr = source.substring(source.lastIndexOf("_") + 1, source.lastIndexOf("."))
-                val threshold = thresholdOverrideStr.toIntOrNull()
-                filterOverride.threshold(threshold ?: THRESHOLD).process(FilterImageImpl(resized), destinationImpl)
+                val threshold = thresholdOverrideStr.toIntOrNull() ?: THRESHOLD
+                d("Using threshold value: $threshold")
+                filterOverride.threshold(threshold).process(FilterImageImpl(resized), destinationImpl)
             }else{
                 l("Couldn't find filter override for $source... using default")
                 defaultFilter.threshold(THRESHOLD).process(FilterImageImpl(resized), destinationImpl)
@@ -342,7 +345,13 @@ class Generator {
             defaultFilter.threshold(THRESHOLD).process(FilterImageImpl(resized), destinationImpl)
         }
 
-        val outputFile = File(saveDir, source.substring(0, source.lastIndexOf(".")) + "_dithered.png")
+        val outputFile = File(saveDir, source.substring(0, source.lastIndexOf(".")) + "_processed.png")
+
+        val oldFile = File(saveDir, source.substring(0, source.lastIndexOf(".")) + "_dithered.png")
+
+        if(oldFile.exists()){
+            oldFile.delete()
+        }
 
         //ImageIO.write(destinationImpl.image, "png", outputFile)
 
