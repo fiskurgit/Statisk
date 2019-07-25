@@ -28,7 +28,7 @@ Converts Markdown files to simple Html with monochrome dithered images creating 
 </html>
 ```
 
-and Markdown posts kept in a `Year/Month/Day` directory structure
+and Markdown posts kept in a Year/Month/Day (`YYYY/MM/DD`) directory structure
 <pre style="font-family: monospace;">
 |-_layout.html  
 |- 2020/  
