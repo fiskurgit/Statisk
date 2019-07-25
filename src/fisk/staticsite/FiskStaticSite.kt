@@ -13,6 +13,7 @@ import javax.imageio.ImageWriteParam
 import javax.imageio.IIOImage
 import java.text.DecimalFormat
 import java.io.FileOutputStream
+import java.lang.StringBuilder
 
 fun main(args: Array<String>) {
     if(args.isEmpty() || args[0] == "help"){
@@ -29,9 +30,16 @@ fun main(args: Array<String>) {
     }
 }
 
+
+
 class Generator {
 
+    data class Link(val date: String, val title: String, val link: String)
+    var links = mutableListOf<Link>()
+
     private var pageBytes = 0L
+
+    private var webroot: File? = null
 
     companion object {
         fun l(message: String) {
@@ -76,7 +84,7 @@ class Generator {
             fileA.exists() && fileARef.toLowerCase().endsWith(".md") && fileB.exists() && fileBRef != null && fileBRef.endsWith(TEMPLATE) -> {
                 //We're converting a single file with a supplied template
                 d("MODE: Single index.md with supplied template")
-                parseMarkdown(fileA, fileB)
+                parseMarkdown(fileA, fileB, false)
             }
             fileA.exists() && fileARef.toLowerCase().endsWith(".md") -> {
                 //Single post but look for _template.html three directories up
@@ -89,7 +97,7 @@ class Generator {
                 val template = File(rootDir, TEMPLATE)
 
                 when {
-                    template.exists() -> parseMarkdown(fileA, template)
+                    template.exists() -> parseMarkdown(fileA, template, false)
                     else -> die("Could not find _template.html, check it exists in root and post directory structure is correct")
                 }
 
@@ -102,12 +110,48 @@ class Generator {
 
                 when {
                     template.exists() -> {
+                        webroot = fileA
                         fullBuild(fileA, template)
+
+                        l("Post conversion complete, building menu...")
+
+                        val index = File(webroot, "index.md")
+
+                        if(index.exists()){
+                            parseMarkdown(index, template, true)
+
+                            val linkBuilder = StringBuilder()
+
+                            links.forEach {link ->
+                                d("Add link: ${link.date} title: ${link.title} href: ${link.link}")
+
+                                linkBuilder.append("<a href=\"")
+                                linkBuilder.append("${link.link}\">")
+                                linkBuilder.append("${link.date} ${link.title}</href><br>")
+                            }
+
+                            val htmlIndex = File(index.path.replace(".md", ".html"))
+
+                            var content = htmlIndex.readText()
+
+                            if(content.contains("{{ posts }}")){
+                                content = content.replace("{{ posts }}", linkBuilder.toString())
+
+                                htmlIndex.writeText(content)
+
+                                l("All posts converted and index updated - DONE")
+                                System.exit(0)
+                            }else{
+                                l("Could not find '{{ posts }}', skipping post index - DONE")
+                                System.exit(0)
+                            }
+                        }else{
+                            l("No root index.md, skipping menu  - DONE")
+                            System.exit(0)
+                        }
                     }
                     else -> die("Could not find _template.html, check it exists in the website root and you're passing the correct path")
                 }
-
-
             }
             else -> die("Bad arguments, check your file references")
         }
@@ -145,14 +189,14 @@ class Generator {
                     l("Inspecting file: " + dayFile.name)
                     if(dayFile.name.endsWith(".md")){
                         l("Found markdown: ${dayFile.path}")
-                        parseMarkdown(dayFile, template)
+                        parseMarkdown(dayFile, template, false)
                     }
                 }
             }
         }
     }
 
-    private fun parseMarkdown(mdFile: File, template: File){
+    private fun parseMarkdown(mdFile: File, template: File, isIndex: Boolean){
         l("parsing Markdown...")
 
         val sourceMd = mdFile.readText()
@@ -189,7 +233,21 @@ class Generator {
 
         l("${mdFile.name} converted to ${outputFile.name}")
         d(outputFile.absolutePath)
-        l("")
+
+        if(!isIndex) {
+            val hrefLink = "." + outputFile.absolutePath.replace(webroot!!.absolutePath, "")
+            d("hrefLink: $hrefLink")
+
+
+            val dateLabel = outputFile.dateLabel()
+            val link = Link(dateLabel, title, hrefLink)
+            links.add(link)
+
+            l("")
+        }
+
+        //reset byte counter
+        pageBytes = 0L
 
         //ends
     }
@@ -290,6 +348,32 @@ class Generator {
         val dirPath = this.absolutePath.substring(0, this.absolutePath.lastIndexOf("/"))
         return File(dirPath)
     }
+
+    //Expect path in form: /Users/670m/pi/fisk_solar_website/2019/07/25/
+    private fun File.dateLabel(): String {
+        if(name.endsWith(".html")){
+            var path = this.path.substring(0, this.path.lastIndexOf("/"))
+
+            val day = path.takeLast(2)
+
+            path = path.substring(0, path.lastIndexOf("/"))
+
+            val month = path.takeLast(2)
+
+            path = path.substring(0, path.lastIndexOf("/"))
+
+            val year = path.takeLast(4)
+
+            val dateLabel = "$day/$month/$year"
+
+            d("date label: $dateLabel")
+
+            return dateLabel
+        }else{
+            return "ERROR"
+        }
+    }
+
     private fun String.isYear(): Boolean {
         return when {
             this.length == 4 -> {
