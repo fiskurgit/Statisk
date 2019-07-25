@@ -14,6 +14,7 @@ import javax.imageio.IIOImage
 import java.text.DecimalFormat
 import java.io.FileOutputStream
 import java.lang.StringBuilder
+import javax.imageio.IIOException
 
 fun main(args: Array<String>) {
     if(args.isEmpty() || args[0] == "help"){
@@ -52,7 +53,11 @@ class Generator {
 
         const val TEMPLATE = "_template.html"
         const val MAX_IMG_WIDTH = 960
+        const val THRESHOLD = 128
     }
+
+
+    private val defaultFilter = Filter.FilterSierra()
 
     fun help(){
         l("S T A T I S K Site Generator")
@@ -123,7 +128,7 @@ class Generator {
 
                             val linkBuilder = StringBuilder()
 
-                            links.forEach {link ->
+                            links.asReversed().forEach {link ->
                                 d("Add link: ${link.date} title: ${link.title} href: ${link.link}")
 
                                 linkBuilder.append("<a href=\"")
@@ -280,9 +285,19 @@ class Generator {
         }
 
         for(image in images){
-            val converted = convertImage(saveDir, image)
-            pageBytes += fileSize(converted)
-            html = html.replace(image, converted)
+
+            if(image.contains("no_filter")){
+                pageBytes += fileSize(File(saveDir, image).path)
+            }else {
+                val converted = convertImage(saveDir, image)
+
+                if (converted != null) {
+                    pageBytes += fileSize(File(saveDir, converted).path)
+                    html = html.replace(image, converted)
+                } else {
+                    pageBytes += fileSize(File(saveDir, image).path)
+                }
+            }
         }
 
         return html
@@ -293,14 +308,39 @@ class Generator {
         return file.length()
     }
 
-    private fun convertImage(saveDir: File, source: String): String{
-        val sourceImage = ImageIO.read(File(source))
+    private fun convertImage(saveDir: File, source: String): String?{
+        val sourceImage:BufferedImage?
+        try {
+            val convertImage = File(saveDir, source)
+            if(convertImage.exists()){
+                sourceImage = ImageIO.read(convertImage)
+            }else{
+                d("Can't find image at ${convertImage.path} - skipping conversion")
+                return null
+            }
+        }catch(exception: IIOException){
+            d("EXCEPTION reading image: $source in directory: ${saveDir.path}")
+            return null
+        }
 
         val resized = if(sourceImage.width > MAX_IMG_WIDTH){resize(sourceImage, MAX_IMG_WIDTH)}else{sourceImage}
         val destination = BufferedImage(resized.width, resized.height, BufferedImage.TYPE_BYTE_GRAY)
         val destinationImpl = FilterImageImpl(destination)
 
-        Filter.Filter8By48ayer().threshold(255).process(FilterImageImpl(resized), destinationImpl)
+
+        if(source.contains("filter_override")){
+            val filterOverride = Filter.find(source)
+            if(filterOverride != null){
+                val thresholdOverrideStr = source.substring(source.lastIndexOf("_") + 1, source.lastIndexOf("."))
+                val threshold = thresholdOverrideStr.toIntOrNull()
+                filterOverride.threshold(threshold ?: THRESHOLD).process(FilterImageImpl(resized), destinationImpl)
+            }else{
+                l("Couldn't find filter override for $source... using default")
+                defaultFilter.threshold(THRESHOLD).process(FilterImageImpl(resized), destinationImpl)
+            }
+        }else{
+            defaultFilter.threshold(THRESHOLD).process(FilterImageImpl(resized), destinationImpl)
+        }
 
         val outputFile = File(saveDir, source.substring(0, source.lastIndexOf(".")) + "_dithered.png")
 

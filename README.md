@@ -59,6 +59,17 @@ Markdown posts need to be in a Year/Month/Day (`YYYY/MM/DD`) directory structure
 * `statisk index.md` - Convert single post and images, Statisk will look for `_template.html` thee directories up in the hierarchy
 * `statisk index.md path/to/_a_new_template.html` - Convert single post and images using the supplied template.
 
+## Filter Override
+
+Not all images look great with the default filter settings. To overrride add `filter_override` to the image name followed by the filter (See Filter.kt). To override the standard threshold value of 128 end the filename with `_255.jpeg`, you must also override the filter to trigger this, eg.
+
+```example_filter_override_8by8Bayer_255.jpeg```
+
+
+To keep the original image entirely add `no_filter`, eg:
+
+```example_no_filter.jpeg```
+
 ## Future Plans
 
 * RSS feed

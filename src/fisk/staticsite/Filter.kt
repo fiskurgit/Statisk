@@ -12,6 +12,14 @@ abstract class FilterImage {
 abstract class Filter {
 
     companion object {
+        fun find(fileRef: String): Filter? {
+            return when {
+                fileRef.contains("8by8Bayer") -> Filter8By48Bayer()
+                fileRef.contains("4by4Bayer") -> Filter4By4Bayer()
+                else -> null
+            }
+        }
+
         var threshold = 128
 
         const val BLACK = 0x000000
@@ -120,7 +128,7 @@ abstract class Filter {
         }
     }
 
-    class Filter8By48ayer : Filter() {
+    class Filter8By48Bayer : Filter() {
         override fun process(source: FilterImage, destination: FilterImage) {
 
             val width = source.width
