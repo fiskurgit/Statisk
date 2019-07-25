@@ -10,10 +10,9 @@ import javax.imageio.ImageIO
 import java.awt.RenderingHints
 import java.awt.Transparency
 import javax.imageio.ImageWriteParam
-import javax.imageio.plugins.jpeg.JPEGImageWriteParam
 import javax.imageio.IIOImage
-import javax.imageio.stream.FileImageOutputStream
 import java.text.DecimalFormat
+import java.io.FileOutputStream
 
 fun main(args: Array<String>) {
     if(args.isEmpty() || args[0] == "help"){
@@ -151,28 +150,31 @@ class Generator {
     private fun convertImage(saveDir: File, source: String): String{
         val sourceImage = ImageIO.read(File(source))
 
-        val resized = if(sourceImage.width > 960){resize(sourceImage, 960)}else{sourceImage}
-        val destination = BufferedImage(resized.width, resized.height, BufferedImage.TYPE_INT_RGB)
+        val resized = if(sourceImage.width > 800){resize(sourceImage, 800)}else{sourceImage}
+        val destination = BufferedImage(resized.width, resized.height, BufferedImage.TYPE_BYTE_GRAY)
         val destinationImpl = FilterImageImpl(destination)
 
-        Filter.FilterJarvisJudiceNinke().process(FilterImageImpl(resized), destinationImpl)
+        Filter.Filter8By48ayer().threshold(255).process(FilterImageImpl(resized), destinationImpl)
 
-        val outputFile = File(saveDir, source.substring(0, source.lastIndexOf(".")) + "_dithered.jpg")
-        val dithered = destinationImpl.image
+        val outputFile = File(saveDir, source.substring(0, source.lastIndexOf(".")) + "_dithered.png")
 
+        //ImageIO.write(destinationImpl.image, "png", outputFile)
 
-        //Uncompressed png
-        //ImageIO.write(dithered, "png", outputFile)
+        val writer = ImageIO.getImageWritersByFormatName("png").next()
+        val param = writer?.defaultWriteParam
 
+        if (param!= null && param.canWriteCompressed()) {
+            l("canWriteCompressed: true")
+            param.compressionMode = ImageWriteParam.MODE_EXPLICIT
+            param.compressionQuality = 0.0f//favour filesize over quality
+        }else{
+            l("canWriteCompressed: false")
+        }
 
-        val jpegParams = JPEGImageWriteParam(null)
-        jpegParams.compressionMode = ImageWriteParam.MODE_EXPLICIT
-        jpegParams.compressionQuality = 0.5f
-
-        val writer = ImageIO.getImageWritersByFormatName("jpg").next()
-        writer.output = FileImageOutputStream(outputFile)
-        writer.write(null, IIOImage(dithered, null, null), jpegParams)
-
+        val os = FileOutputStream(outputFile)
+        val ios = ImageIO.createImageOutputStream(os)
+        writer?.output = ios
+        writer?.write(null, IIOImage(destinationImpl.image, null, null), param)
 
         return outputFile.name
     }

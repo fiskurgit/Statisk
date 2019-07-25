@@ -50,7 +50,7 @@
 </style>
 </head>
 
-<body>
+<body onload="fetchSourhallData()">
 <header>
     <svg height="126.462" width="150" style="stroke-width:0.3">
         <path d="M1.01 82.552l25.129 12.602v27.65h-8.59a1.83 1.83 0 1 0 0 3.658h21.027a1.83 1.83 0 1 0 0-3.658h-8.779V96.988l24.069 12.068a1.828 1.828 0 0 0 2.455-.815l4.308-8.591a1.83 1.83 0 0 0-.815-2.456L6.957 70.69a1.83 1.83 0 0 0-2.455.816l-4.308 8.59a1.83 1.83 0 0 0 .815 2.456zm5.943-7.771l49.586 24.865-2.667 5.32L4.284 80.103z"/>
@@ -74,12 +74,29 @@
     <h1>'Cairn Circle'</h1><h4>26th May 2019</h4><p>OS Grid Ref: <a href="https://osmaps.ordnancesurvey.co.uk/54.59103,-2.78437,18/pin">SD 94827 22566</a><br />
 Geo URI: <code>geo:54.5910,2.78437</code><br />
 Latitude: 53° 41' 58&quot; N<br />
-Longitude: 2° 4' 47&quot; W</p><p>Up on Moor Divock/Askham Fell along with the <a href="https://fiskurgit.github.io/blog/20042019/">Cop Stone</a>, the Cockpit Circle and others. Deserves to have a name, but apparently doesn't.</p><p class="img"><img src="example_dithered.jpg" alt="Ring Cairn Askham Fell" /></p>
+Longitude: 2° 4' 47&quot; W</p><p>Up on Moor Divock/Askham Fell along with the <a href="https://fiskurgit.github.io/blog/20042019/">Cop Stone</a>, the Cockpit Circle and others. Deserves to have a name, but apparently doesn't.</p><p class="img"><img src="example_dithered.png" alt="Ring Cairn Askham Fell" /></p>
 </div>
 
 <footer>
-    Inspired by <a href="https://solar.lowtechmagazine.com">LOW←TECH MAGAZINE</a> | Icon by <a href="https://thenounproject.com/term/panels/2696981/">Icongeek26</a> | Page size including images: 258.3 kb | <a href="https://fiskurgit.github.io/">Fisk Static Site</a>
+    Inspired by <a href="https://solar.lowtechmagazine.com">LOW←TECH MAGAZINE</a> | Icon by <a href="https://thenounproject.com/term/panels/2696981/">Icongeek26</a> | Page size including images: 20.5 kb | <a href="https://github.com/fiskurgit/Statisk">Fisk Statisk</a>
 </footer>
-</body>
+<script>
+fetchAwairData(callback) {
+    fetch(`http://fisksolar.ddns.net/awair_sourhall.json`)
+       .then(response => response.json())
+       .then(json => callback(null, json.data))
+       .catch(error => callback(error, null))
+}
 
+fun fetchSourhallData(){
+    fetchAwairData((error, awairSourhall) => {
+        if (error){
+            console.log(error)
+        }else{
+            console.log(awairSourhall[0])
+        }
+    })
+}
+</script>
+</body>
 </html>
