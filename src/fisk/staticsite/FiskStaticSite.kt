@@ -88,18 +88,67 @@ class Generator {
 
                 val template = File(rootDir, TEMPLATE)
 
-                if(template.exists()){
-                    parseMarkdown(fileA, template)
-                }else{
-                    die("Could not find _template.html, check it exists in root and post directory structure is correct")
+                when {
+                    template.exists() -> parseMarkdown(fileA, template)
+                    else -> die("Could not find _template.html, check it exists in root and post directory structure is correct")
                 }
 
             }
             fileA.exists() && fileA.isDirectory -> {
                 //The full iterative flow
                 d("MODE: Full directory flow")
+
+                val template = File(fileA, TEMPLATE)
+
+                when {
+                    template.exists() -> {
+                        fullBuild(fileA, template)
+                    }
+                    else -> die("Could not find _template.html, check it exists in the website root and you're passing the correct path")
+                }
+
+
             }
             else -> die("Bad arguments, check your file references")
+        }
+    }
+
+    private fun fullBuild(root: File, template: File){
+        l("Scanning project")
+        root.listFiles().forEach { fileInRoot ->
+            if(fileInRoot.isDirectory){
+                d("Found directory: $fileInRoot")
+
+                if(fileInRoot.name.isYear()){
+                    scanMonths(fileInRoot, template)
+                }
+            }
+
+        }
+    }
+
+    private fun scanMonths(root: File, template: File){
+        l("Processing year: ${root.name}")
+        root.listFiles().forEach { fileInRoot ->
+            when {
+                fileInRoot.isDirectory && fileInRoot.name.isMonthOrDay() -> scanDays(fileInRoot, template)
+            }
+        }
+    }
+
+    private fun scanDays(root: File, template: File){
+        l("Processing month: ${root.name}")
+        root.listFiles().forEach { fileInRoot ->
+            if(fileInRoot.isDirectory && fileInRoot.name.isMonthOrDay()){
+                l("Processing day: ${fileInRoot.name}")
+                fileInRoot.listFiles().forEach {dayFile ->
+                    l("Inspecting file: " + dayFile.name)
+                    if(dayFile.name.endsWith(".md")){
+                        l("Found markdown: ${dayFile.path}")
+                        parseMarkdown(dayFile, template)
+                    }
+                }
+            }
         }
     }
 
@@ -107,7 +156,6 @@ class Generator {
         l("parsing Markdown...")
 
         val sourceMd = mdFile.readText()
-
 
         val flavour = CommonMarkFlavourDescriptor()
         val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(sourceMd)
@@ -140,6 +188,8 @@ class Generator {
         outputFile.writeText(output, Charsets.UTF_8)
 
         l("${mdFile.name} converted to ${outputFile.name}")
+        d(outputFile.absolutePath)
+        l("")
 
         //ends
     }
@@ -235,9 +285,35 @@ class Generator {
         return bi
     }
 
+    //Extensions
     private fun File.dir(): File {
         val dirPath = this.absolutePath.substring(0, this.absolutePath.lastIndexOf("/"))
         return File(dirPath)
+    }
+    private fun String.isYear(): Boolean {
+        return when {
+            this.length == 4 -> {
+                val i = this.toIntOrNull()
+                when(i) {
+                    null -> false
+                    else -> true
+                }
+            }
+            else -> false
+        }
+    }
+
+    private fun String.isMonthOrDay(): Boolean {
+        return when {
+            this.length == 2 -> {
+                val i = this.toIntOrNull()
+                when(i) {
+                    null -> false
+                    else -> true
+                }
+            }
+            else -> false
+        }
     }
 
     class FilterImageImpl(val image: BufferedImage): FilterImage() {
@@ -267,3 +343,5 @@ class Generator {
         }
     }
 }
+
+
