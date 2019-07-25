@@ -17,10 +17,15 @@ import java.io.FileOutputStream
 fun main(args: Array<String>) {
     if(args.isEmpty() || args[0] == "help"){
         Generator().help()
+    }else if(args.size == 1){
+        val aRef = args[0]
+        Generator().build(aRef)
+    }else if(args.size == 2){
+        val aRef = args[0]
+        val bRef = args[1]
+        Generator().build(aRef, bRef)
     }else{
-        val inMarkdown = args[0]
-        val template = args[1]
-        Generator().build(inMarkdown, template)
+        Generator().die("Error: Too many arguments")
     }
 }
 
@@ -32,34 +37,69 @@ class Generator {
         fun l(message: String) {
             println(message)
         }
+
+        fun d(message: String) {
+            println("DEBUG: $message")
+        }
+
+        const val TEMPLATE = "_template.html"
     }
 
     fun help(){
         l("S T A T I S K Site Generator")
         l("")
-        l("HELP")
+        l("HELP - TODO")
     }
 
-    fun build(markdownFileRef: String, templateFileRef: String) {
+    fun die(message: String){
+        l(message)
+        help()
+        System.exit(-1)
+    }
+
+    fun build(fileARef: String){
+        build(fileARef, null)
+    }
+
+    fun build(fileARef: String, fileBRef: String?) {
         l("")
         l("S T A T I S K Site Generator")
         l("")
 
-        val mdFile = File(markdownFileRef)
-        val templateFile = File(templateFileRef)
+        val fileA = File(fileARef)
+        val fileB = when {
+            !fileBRef.isNullOrEmpty() -> File(fileBRef)
+            else -> File("")
+        }
 
-        if(mdFile.exists() && markdownFileRef.toLowerCase().endsWith(".md") && templateFile.exists()){
-            //todo - check if mdFile is directory, then use recursive method to bulk convert
-            parseMarkdown(mdFile, templateFile)
-        }else{
-            if(!mdFile.exists()) {
-                l("Error: $markdownFileRef does not exist or is not a Markdown file")
+        when {
+            fileA.exists() && fileARef.toLowerCase().endsWith(".md") && fileB.exists() && fileBRef != null && fileBRef.endsWith(TEMPLATE) -> {
+                //We're converting a single file with a supplied template
+                d("MODE: Single index.md with supplied template")
+                parseMarkdown(fileA, fileB)
             }
-            if(!templateFile.exists()) {
-                l("Error: $templateFileRef does not exist")
-            }
+            fileA.exists() && fileARef.toLowerCase().endsWith(".md") -> {
+                //Single post but look for _template.html three directories up
+                d("MODE: Single index.md, no supplied template")
 
-            System.exit(-1)
+                val rootDir = fileA.dir().parentFile.parentFile.parentFile
+
+                d("Looking for $TEMPLATE in $rootDir")
+
+                val template = File(rootDir, TEMPLATE)
+
+                if(template.exists()){
+                    parseMarkdown(fileA, template)
+                }else{
+                    die("Could not find _template.html, check it exists in root and post directory structure is correct")
+                }
+
+            }
+            fileA.exists() && fileA.isDirectory -> {
+                //The full iterative flow
+                d("MODE: Full directory flow")
+            }
+            else -> die("Bad arguments, check your file references")
         }
     }
 
@@ -79,7 +119,6 @@ class Generator {
 
         val templateHtml = template.readText()
 
-
         var output = templateHtml.replace("{{ content }}", convertedHtml)
 
         //Update images for css
@@ -95,7 +134,7 @@ class Generator {
 
 
         pageBytes += output.toByteArray().size
-        output = output.replace("{{ page_size }}", "Page size including images: ${readableFileSize(pageBytes)}")
+        output = output.replace("{{ page_size }}", readableFileSize(pageBytes))
 
         val outputFile = File(mdFile.dir(), mdFile.nameWithoutExtension + ".html")
         outputFile.writeText(output, Charsets.UTF_8)
@@ -105,7 +144,7 @@ class Generator {
         //ends
     }
 
-    fun readableFileSize(size: Long): String {
+    private fun readableFileSize(size: Long): String {
         if (size <= 0) return "0"
         val units = arrayOf("pageBytes", "kb", "MB", "GB", "TB")
         val digitGroups = (Math.log10(size.toDouble()) / Math.log10(1024.0)).toInt()
@@ -119,10 +158,8 @@ class Generator {
 
     private fun convertImages(saveDir: File, _html: String): String{
         var html = _html
-        l("Find images in: \n$html")
-        l("")
-        l("")
-        val imagesPattern= Pattern.compile("(?:<img[^>]*src=\")([^\"]*)",Pattern.CASE_INSENSITIVE)
+        l("Looking for image tags")
+        val imagesPattern= Pattern.compile("(?:<img[^>]*src=\")([^\"]*)", Pattern.CASE_INSENSITIVE)
         val imagesMatcher = imagesPattern.matcher(html)
 
         val images = mutableListOf<String>()
@@ -164,11 +201,11 @@ class Generator {
         val param = writer?.defaultWriteParam
 
         if (param!= null && param.canWriteCompressed()) {
-            l("canWriteCompressed: true")
+            d("canWriteCompressed: true")
             param.compressionMode = ImageWriteParam.MODE_EXPLICIT
             param.compressionQuality = 0.0f//favour filesize over quality
         }else{
-            l("canWriteCompressed: false")
+            d("canWriteCompressed: false")
         }
 
         val os = FileOutputStream(outputFile)
@@ -198,7 +235,7 @@ class Generator {
         return bi
     }
 
-    fun File.dir(): File {
+    private fun File.dir(): File {
         val dirPath = this.absolutePath.substring(0, this.absolutePath.lastIndexOf("/"))
         return File(dirPath)
     }

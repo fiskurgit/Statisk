@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9b390b61-72a1-40ca-99a0-dc75379d4d2a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,11 +14,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="13" column="30" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
+            <state relative-caret-position="298">
+              <caret line="136" column="81" selection-start-line="136" selection-start-column="81" selection-end-line="136" selection-end-column="81" />
+              <folding>
+                <element signature="e#25#643#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/io/File.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="207">
+              <caret line="275" selection-start-line="275" selection-end-line="275" />
             </state>
           </provider>
         </entry>
@@ -41,18 +53,6 @@
                 <element signature="e#8055#8056#0" expanded="true" />
                 <element signature="e#8084#8085#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="533">
-                <caret line="61" column="15" selection-start-line="61" selection-start-column="15" selection-end-line="61" selection-end-column="15" />
-              </first_editor>
-              <second_editor />
             </state>
           </provider>
         </entry>
@@ -125,8 +125,8 @@
         <option value="$PROJECT_DIR$/index.md" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/_template.html" />
-        <option value="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" />
       </list>
     </option>
   </component>
@@ -165,7 +165,7 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564060241155" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564065795192" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -183,7 +183,20 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Kotlin.Full path to single index.md">
+    <configuration name="Full path to single index.md" type="JetRunConfigurationType" factoryName="Kotlin">
+      <module name="FiskStaticSite" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$USER_HOME$/pi/fisk_solar_website/2019/07/25/index.md" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="fisk.staticsite.FiskStaticSiteKt" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
       <module name="FiskStaticSite" />
       <option name="VM_PARAMETERS" value="" />
@@ -210,6 +223,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Kotlin.Full path to single index.md" />
+      <item itemvalue="Kotlin.fisk.staticsite.FiskStaticSiteKt" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.fisk.staticsite.FiskStaticSiteKt" />
@@ -230,7 +247,7 @@
     <frame x="0" y="0" width="1680" height="1050" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.2936508" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14285715" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -239,7 +256,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32941177" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.33877552" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33877552" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -248,7 +265,7 @@
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Flutter Performance" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32857144" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32857144" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32857144" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -279,13 +296,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/io/File.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="356" column="11" selection-start-line="356" selection-start-column="11" selection-end-line="356" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.desktop/javax/imageio/ImageIO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1034">
@@ -310,17 +320,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.desktop/javax/imageio/ImageWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1306">
-          <caret line="238" column="18" selection-start-line="238" selection-start-column="18" selection-end-line="238" selection-end-column="18" />
-          <folding>
-            <element signature="e#8055#8056#0" expanded="true" />
-            <element signature="e#8084#8085#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.desktop/javax/imageio/ImageWriteParam.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="500">
@@ -335,13 +334,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="13" column="30" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_template.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="56">
@@ -352,11 +344,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.desktop/javax/imageio/ImageWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1306">
+          <caret line="238" column="18" selection-start-line="238" selection-start-column="18" selection-end-line="238" selection-end-column="18" />
+          <folding>
+            <element signature="e#8055#8056#0" expanded="true" />
+            <element signature="e#8084#8085#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="533">
-            <caret line="61" column="15" selection-start-line="61" selection-start-column="15" selection-end-line="61" selection-end-column="15" />
+          <first_editor relative-caret-position="194">
+            <caret line="29" column="12" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="27" />
           </first_editor>
           <second_editor />
         </state>
@@ -364,6 +367,23 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/io/File.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="275" selection-start-line="275" selection-end-line="275" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="136" column="81" selection-start-line="136" selection-start-column="81" selection-end-line="136" selection-end-column="81" />
+          <folding>
+            <element signature="e#25#643#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
