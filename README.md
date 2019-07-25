@@ -56,7 +56,7 @@ Markdown posts need to be in a Year/Month/Day (`YYYY/MM/DD`) directory structure
 ## Usage
 
 * `statisk path/to/websiteroot/` - Statisk will then iterate over the directories and convert the markdown and images
-* `statisk index.md` - Convert single post and images, Statisk will look for `_template.html` two directories up in the hierarchy
+* `statisk index.md` - Convert single post and images, Statisk will look for `_template.html` thee directories up in the hierarchy
 * `statisk index.md path/to/_a_new_template.html` - Convert single post and images using the supplied template.
 
 ## Future Plans
