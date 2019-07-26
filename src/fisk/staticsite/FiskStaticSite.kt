@@ -16,6 +16,12 @@ import java.io.FileOutputStream
 import java.lang.StringBuilder
 import javax.imageio.IIOException
 
+/*
+
+    This is terrible terrible stream-of-thought code and will probably never be refactored into something sane and safe.
+    You have been warned.
+
+ */
 fun main(args: Array<String>) {
     if(args.isEmpty() || args[0] == "help"){
         Generator().help()
@@ -31,16 +37,15 @@ fun main(args: Array<String>) {
     }
 }
 
-
-
 class Generator {
 
     data class Link(val date: String, val title: String, val link: String)
-    var links = mutableListOf<Link>()
+    private var links = mutableListOf<Link>()
 
     private var pageBytes = 0L
     private var isSingle = false
     private var webroot: File? = null
+    private val defaultFilter = Filter.FilterSierra()
 
     companion object {
         fun l(message: String) {
@@ -55,9 +60,6 @@ class Generator {
         const val MAX_IMG_WIDTH = 960
         const val THRESHOLD = 128
     }
-
-
-    private val defaultFilter = Filter.FilterSierra()
 
     fun help(){
         l("S T A T I S K Site Generator")
@@ -220,14 +222,14 @@ class Generator {
 
         var output = templateHtml.replace("{{ content }}", convertedHtml)
 
-        //Update images for css
-        output = output.replace("<p><img src=\"", "<p class=\"img\"><img src=\"")
+        //Add class type for images so they can override css width values - UPDATE: rethinking this
+        //output = output.replaceFirst("<p><img src=\"", "<p class=\"poster\"><img src=\"")
 
         //Extract title from Markdown
         val firstTitleNode = parsedTree.children.firstOrNull { it.type.name =="ATX_1" }
         val title = when {
-            firstTitleNode != null -> sourceMd.substring(firstTitleNode!!.startOffset + 1, firstTitleNode.endOffset).trim()
-            else -> ""
+            firstTitleNode != null -> sourceMd.substring(firstTitleNode.startOffset + 1, firstTitleNode.endOffset).trim()
+            else -> "FISK"
         }
         output = output.replace("{{ title }}", title)
 
@@ -244,7 +246,6 @@ class Generator {
         if(!isSingle && !isIndex && outputFile.name.endsWith("index.html")) {
             val hrefLink = "." + outputFile.absolutePath.replace(webroot!!.absolutePath, "")
             d("hrefLink: $hrefLink")
-
 
             val dateLabel = outputFile.dateLabel()
             val link = Link(dateLabel, title, hrefLink)
@@ -268,7 +269,7 @@ class Generator {
                 1024.0,
                 digitGroups.toDouble()
             )
-        ) + " " + units[digitGroups]
+        ) + units[digitGroups]
     }
 
     private fun convertImages(saveDir: File, _html: String): String{

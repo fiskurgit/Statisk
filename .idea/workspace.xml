@@ -3,7 +3,27 @@
   <component name="ChangeListManager">
     <list default="true" id="9b390b61-72a1-40ca-99a0-dc75379d4d2a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$Companion.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$Companion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$Filter2By2Bayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$Filter2By2Bayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$Filter3By3Bayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$Filter3By3Bayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$Filter4By4Bayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$Filter4By4Bayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$Filter5By3Bayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$Filter5By3Bayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$Filter8By48Bayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$Filter8By48Bayer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterAtkinson.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterAtkinson.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterBurkes.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterBurkes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterError.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterFalseFloydSteinberg.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterFalseFloydSteinberg.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterFloydSteinberg.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterFloydSteinberg.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterJarvisJudiceNinke.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterJarvisJudiceNinke.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterLeftToRightErrorDiffusion.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterLeftToRightErrorDiffusion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterNewspaperHalftone.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterNewspaperHalftone.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterRandom.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterRandom.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterSierra.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterSierra.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterSierraLite.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterSierraLite.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterStucki.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterStucki.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterThreshold.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterThreshold.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterTwoRowSierra.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter$FilterTwoRowSierra.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Filter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fisk/staticsite/Filter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/fisk/staticsite/Filter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" afterDir="false" />
     </list>
@@ -16,11 +36,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="490">
-              <caret line="337" column="43" selection-start-line="337" selection-start-column="43" selection-end-line="337" selection-end-column="43" />
+            <state relative-caret-position="214">
+              <caret line="271" column="9" selection-start-line="271" selection-start-column="9" selection-end-line="271" selection-end-column="9" />
               <folding>
                 <element signature="e#25#571#0" expanded="true" />
               </folding>
@@ -71,11 +91,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/Filter.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="66" lean-forward="true" selection-start-line="17" selection-start-column="66" selection-end-line="17" selection-end-column="66" />
+            <state relative-caret-position="285">
+              <caret line="19" column="40" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -116,6 +136,7 @@
       <find>, callback: () -&gt; Unit</find>
       <find>callback()</find>
       <find>800</find>
+      <find>&lt;p</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -128,8 +149,8 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/_template.html" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" />
         <option value="$PROJECT_DIR$/src/fisk/staticsite/Filter.kt" />
+        <option value="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" />
       </list>
     </option>
   </component>
@@ -179,7 +200,7 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564083416599" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564134247205" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -197,7 +218,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Kotlin.Single">
+  <component name="RunManager" selected="Kotlin.Iterative">
     <configuration name="Iterative" type="JetRunConfigurationType" factoryName="Kotlin">
       <module name="FiskStaticSite" />
       <option name="VM_PARAMETERS" value="" />
@@ -258,10 +279,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1680" height="1050" extended-state="6" />
+    <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14285715" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12460064" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -270,7 +291,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32941177" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33877552" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32871288" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -278,7 +299,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Flutter Performance" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.32857144" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32772276" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32857144" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -405,20 +426,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt">
+    <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/Filter.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="337" column="43" selection-start-line="337" selection-start-column="43" selection-end-line="337" selection-end-column="43" />
-          <folding>
-            <element signature="e#25#571#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="285">
+          <caret line="19" column="40" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="40" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/Filter.kt">
+    <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="66" lean-forward="true" selection-start-line="17" selection-start-column="66" selection-end-line="17" selection-end-column="66" />
+        <state relative-caret-position="214">
+          <caret line="271" column="9" selection-start-line="271" selection-start-column="9" selection-end-line="271" selection-end-column="9" />
+          <folding>
+            <element signature="e#25#571#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

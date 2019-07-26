@@ -17,6 +17,7 @@ abstract class Filter {
                 fileRef.contains("8by8Bayer") -> Filter8By48Bayer()
                 fileRef.contains("4by4Bayer") -> Filter4By4Bayer()
                 fileRef.contains("JarvisJudiceNinke") -> FilterJarvisJudiceNinke()
+                fileRef.contains("Burkes") -> FilterBurkes()
                 else -> null
             }
         }
