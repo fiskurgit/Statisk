@@ -1,30 +1,27 @@
 package fisk.staticsite
 
+import fisk.staticsite.image.ImageProcessor
 import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
 import org.intellij.markdown.html.HtmlGenerator
 import org.intellij.markdown.parser.MarkdownParser
-import java.awt.image.BufferedImage
 import java.io.File
 import java.util.regex.Pattern
-import javax.imageio.ImageIO
-import java.awt.RenderingHints
-import java.awt.Transparency
-import javax.imageio.ImageWriteParam
-import javax.imageio.IIOImage
+
 import java.text.DecimalFormat
-import java.io.FileOutputStream
 import java.lang.StringBuilder
-import javax.imageio.IIOException
 
 /*
 
-    This is terrible terrible stream-of-thought code and will probably never be refactored into something sane and safe.
+    This is terrible terrible stream-of-thought code that will probably never be refactored into something sane and safe.
+    It's pattern-free and debt heavy.
     You have been warned.
+
+    It's also a static site generator in a few hundred lines of code though.
 
  */
 fun main(args: Array<String>) {
     if(args.isEmpty() || args[0] == "help"){
-        Generator().help()
+        Out.help()
     }else if(args.size == 1){
         val aRef = args[0]
         Generator().build(aRef)
@@ -45,31 +42,28 @@ class Generator {
     private var pageBytes = 0L
     private var isSingle = false
     private var webroot: File? = null
-    private val defaultFilter = Filter.FilterSierra()
 
-    companion object {
-        fun l(message: String) {
-            println(message)
-        }
+    //Dither
+    private val defaultFilter = "Atkinson"
+    private var threshold = 128
 
-        fun d(message: String) {
-            println("DEBUG: $message")
-        }
-
-        const val TEMPLATE = "_template.html"
-        const val MAX_IMG_WIDTH = 960
-        const val THRESHOLD = 128
+    enum class ImageConversion{
+        NONE,
+        GREYSCALE_SCALE,
+        COLOR_SCALE,
+        DITHER
     }
 
-    fun help(){
-        l("S T A T I S K Site Generator")
-        l("")
-        l("HELP - TODO")
+    private var defaultConversion = ImageConversion.DITHER
+
+    companion object {
+        const val TEMPLATE = "_template.html"
+        const val MAX_IMG_WIDTH = 960
     }
 
     fun die(message: String){
-        l(message)
-        help()
+        Out.l(message)
+        Out.help()
         System.exit(-1)
     }
 
@@ -78,9 +72,7 @@ class Generator {
     }
 
     fun build(fileARef: String, fileBRef: String?) {
-        l("")
-        l("S T A T I S K Site Generator")
-        l("")
+        Out.welcome()
 
         val fileA = File(fileARef)
         val fileB = when {
@@ -91,17 +83,17 @@ class Generator {
         when {
             fileA.exists() && fileARef.toLowerCase().endsWith(".md") && fileB.exists() && fileBRef != null && fileBRef.endsWith(TEMPLATE) -> {
                 //We're converting a single file with a supplied template
-                d("MODE: Single index.md with supplied template")
+                Out.d("MODE: Single index.md with supplied template")
                 isSingle = true
                 parseMarkdown(fileA, fileB, false)
             }
             fileA.exists() && fileARef.toLowerCase().endsWith(".md") -> {
                 //Single post but look for _template.html three directories up
-                d("MODE: Single index.md, no supplied template")
+                Out.d("MODE: Single index.md, no supplied template")
 
                 val rootDir = fileA.dir().parentFile.parentFile.parentFile
 
-                d("Looking for $TEMPLATE in $rootDir")
+                Out.d("Looking for $TEMPLATE in $rootDir")
 
                 val template = File(rootDir, TEMPLATE)
                 isSingle = true
@@ -113,7 +105,7 @@ class Generator {
             }
             fileA.exists() && fileA.isDirectory -> {
                 //The full iterative flow
-                d("MODE: Full directory flow")
+                Out.d("MODE: Full directory flow")
                 isSingle = false
                 val template = File(fileA, TEMPLATE)
 
@@ -122,7 +114,7 @@ class Generator {
                         webroot = fileA
                         fullBuild(fileA, template)
 
-                        l("Post conversion complete, building menu...")
+                        Out.l("Post conversion complete, building menu...")
 
                         val index = File(webroot, "index.md")
 
@@ -132,7 +124,7 @@ class Generator {
                             val linkBuilder = StringBuilder()
 
                             links.asReversed().forEach {link ->
-                                d("Add link: ${link.date} title: ${link.title} href: ${link.link}")
+                                Out.d("Add link: ${link.date} title: ${link.title} href: ${link.link}")
 
                                 linkBuilder.append("<a href=\"")
                                 linkBuilder.append("${link.link}\">")
@@ -148,14 +140,14 @@ class Generator {
 
                                 htmlIndex.writeText(content)
 
-                                l("All posts converted and index updated - DONE")
+                                Out.l("All posts converted and index updated - DONE")
                                 System.exit(0)
                             }else{
-                                l("Could not find '{{ posts }}', skipping post index - DONE")
+                                Out.l("Could not find '{{ posts }}', skipping post index - DONE")
                                 System.exit(0)
                             }
                         }else{
-                            l("No root index.md, skipping menu  - DONE")
+                            Out.l("No root index.md, skipping menu  - DONE")
                             System.exit(0)
                         }
                     }
@@ -167,21 +159,20 @@ class Generator {
     }
 
     private fun fullBuild(root: File, template: File){
-        l("Scanning project")
+        Out.l("Scanning project")
         root.listFiles().forEach { fileInRoot ->
             if(fileInRoot.isDirectory){
-                d("Found directory: $fileInRoot")
+                Out.d("Found directory: $fileInRoot")
 
                 if(fileInRoot.name.isYear()){
                     scanMonths(fileInRoot, template)
                 }
             }
-
         }
     }
 
     private fun scanMonths(root: File, template: File){
-        l("Processing year: ${root.name}")
+        Out.l("Processing year: ${root.name}")
         root.listFiles().forEach { fileInRoot ->
             when {
                 fileInRoot.isDirectory && fileInRoot.name.isMonthOrDay() -> scanDays(fileInRoot, template)
@@ -190,14 +181,14 @@ class Generator {
     }
 
     private fun scanDays(root: File, template: File){
-        l("Processing month: ${root.name}")
+        Out.l("Processing month: ${root.name}")
         root.listFiles().forEach { fileInRoot ->
             if(fileInRoot.isDirectory && fileInRoot.name.isMonthOrDay()){
-                l("Processing day: ${fileInRoot.name}")
+                Out.l("Processing day: ${fileInRoot.name}")
                 fileInRoot.listFiles().forEach {dayFile ->
-                    l("Inspecting file: " + dayFile.name)
+                    Out.l("Inspecting file: " + dayFile.name)
                     if(dayFile.name.endsWith(".md")){
-                        l("Found markdown: ${dayFile.path}")
+                        Out.l("Found markdown: ${dayFile.path}")
                         parseMarkdown(dayFile, template, false)
                     }
                 }
@@ -206,7 +197,7 @@ class Generator {
     }
 
     private fun parseMarkdown(mdFile: File, template: File, isIndex: Boolean){
-        l("parsing Markdown...")
+        Out.l("parsing Markdown...")
 
         val sourceMd = mdFile.readText()
 
@@ -240,18 +231,18 @@ class Generator {
         val outputFile = File(mdFile.dir(), mdFile.nameWithoutExtension + ".html")
         outputFile.writeText(output, Charsets.UTF_8)
 
-        l("${mdFile.name} converted to ${outputFile.name}")
-        d(outputFile.absolutePath)
+        Out.l("${mdFile.name} converted to ${outputFile.name}")
+        Out.d(outputFile.absolutePath)
 
         if(!isSingle && !isIndex && outputFile.name.endsWith("index.html")) {
             val hrefLink = "." + outputFile.absolutePath.replace(webroot!!.absolutePath, "")
-            d("hrefLink: $hrefLink")
+            Out.d("hrefLink: $hrefLink")
 
             val dateLabel = outputFile.dateLabel()
             val link = Link(dateLabel, title, hrefLink)
             links.add(link)
 
-            l("")
+            Out.l("")
         }
 
         //reset byte counter
@@ -274,7 +265,7 @@ class Generator {
 
     private fun convertImages(saveDir: File, _html: String): String{
         var html = _html
-        l("Looking for image tags")
+        Out.l("Looking for image tags")
         val imagesPattern= Pattern.compile("(?:<img[^>]*src=\")([^\"]*)", Pattern.CASE_INSENSITIVE)
         val imagesMatcher = imagesPattern.matcher(html)
 
@@ -282,23 +273,19 @@ class Generator {
 
         while (imagesMatcher.find()) {
             val image = imagesMatcher.group(1)
-            l("Image found: $image")
+            Out.l("--- Image found: $image")
             images.add(image)
         }
 
         for(image in images){
+            val converted = convertImage(saveDir, image, defaultConversion)
 
-            if(image.contains("no_transform")){
-                pageBytes += fileSize(File(saveDir, image).path)
-            }else {
-                val converted = convertImage(saveDir, image)
-
-                if (converted != null) {
+            when {
+                converted != null -> {
                     pageBytes += fileSize(File(saveDir, converted).path)
                     html = html.replace(image, converted)
-                } else {
-                    pageBytes += fileSize(File(saveDir, image).path)
                 }
+                else -> pageBytes += fileSize(File(saveDir, image).path)
             }
         }
 
@@ -310,171 +297,12 @@ class Generator {
         return file.length()
     }
 
-    private fun convertImage(saveDir: File, source: String): String?{
-        val sourceImage:BufferedImage?
-        try {
-            val convertImage = File(saveDir, source)
-            if(convertImage.exists()){
-                sourceImage = ImageIO.read(convertImage)
-            }else{
-                d("Can't find image at ${convertImage.path} - skipping conversion")
-                return null
-            }
-        }catch(exception: IIOException){
-            d("EXCEPTION reading image: $source in directory: ${saveDir.path}")
-            return null
-        }
-
-        val resized = if(sourceImage.width > MAX_IMG_WIDTH){resize(sourceImage, MAX_IMG_WIDTH)}else{sourceImage}
-        val destination = BufferedImage(resized.width, resized.height, BufferedImage.TYPE_BYTE_GRAY)
-        var destinationImpl = FilterImageImpl(destination)
-
-        if(source.contains("no_filter")) {
-            destinationImpl = FilterImageImpl(resized)
-        }else if(source.contains("filter_override")){
-            val filterOverride = Filter.find(source)
-            if(filterOverride != null){
-                val thresholdOverrideStr = source.substring(source.lastIndexOf("_") + 1, source.lastIndexOf("."))
-                val threshold = thresholdOverrideStr.toIntOrNull() ?: THRESHOLD
-                d("Using threshold value: $threshold")
-                filterOverride.threshold(threshold).process(FilterImageImpl(resized), destinationImpl)
-            }else{
-                l("Couldn't find filter override for $source... using default")
-                defaultFilter.threshold(THRESHOLD).process(FilterImageImpl(resized), destinationImpl)
-            }
-        }else{
-            defaultFilter.threshold(THRESHOLD).process(FilterImageImpl(resized), destinationImpl)
-        }
-
-        val outputFile = File(saveDir, source.substring(0, source.lastIndexOf(".")) + "_processed.png")
-
-        val oldFile = File(saveDir, source.substring(0, source.lastIndexOf(".")) + "_dithered.png")
-
-        if(oldFile.exists()){
-            oldFile.delete()
-        }
-
-        //ImageIO.write(destinationImpl.image, "png", outputFile)
-
-        val writer = ImageIO.getImageWritersByFormatName("png").next()
-        val param = writer?.defaultWriteParam
-
-        if (param!= null && param.canWriteCompressed()) {
-            d("canWriteCompressed: true")
-            param.compressionMode = ImageWriteParam.MODE_EXPLICIT
-            param.compressionQuality = 0.0f//favour filesize over quality
-        }else{
-            d("canWriteCompressed: false")
-        }
-
-        val os = FileOutputStream(outputFile)
-        val ios = ImageIO.createImageOutputStream(os)
-        writer?.output = ios
-        writer?.write(null, IIOImage(destinationImpl.image, null, null), param)
-
-        return outputFile.name
-    }
-
-    private fun resize(src: BufferedImage, targetSize: Int): BufferedImage {
-        var targetWidth = targetSize
-        var targetHeight = targetSize
-        val ratio = src.height.toFloat() / src.width.toFloat()
-        if (ratio <= 1) { //square or landscape-oriented image
-            targetHeight = Math.ceil((targetWidth.toFloat() * ratio).toDouble()).toInt()
-        } else { //portrait image
-            targetWidth = Math.round(targetHeight.toFloat() / ratio)
-        }
-        val bi = BufferedImage(targetWidth, targetHeight,
-            if (src.transparency == Transparency.OPAQUE) BufferedImage.TYPE_INT_RGB else BufferedImage.TYPE_INT_ARGB
-        )
-        val g2d = bi.createGraphics()
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR)
-        g2d.drawImage(src, 0, 0, targetWidth, targetHeight, null)
-        g2d.dispose()
-        return bi
-    }
-
-    //Extensions
-    private fun File.dir(): File {
-        val dirPath = this.absolutePath.substring(0, this.absolutePath.lastIndexOf("/"))
-        return File(dirPath)
-    }
-
-    //Expect path in form: /Users/670m/pi/fisk_solar_website/2019/07/25/
-    private fun File.dateLabel(): String {
-        if(name.endsWith(".html")){
-            var path = this.path.substring(0, this.path.lastIndexOf("/"))
-
-            val day = path.takeLast(2)
-
-            path = path.substring(0, path.lastIndexOf("/"))
-
-            val month = path.takeLast(2)
-
-            path = path.substring(0, path.lastIndexOf("/"))
-
-            val year = path.takeLast(4)
-
-            val dateLabel = "$day/$month/$year"
-
-            d("date label: $dateLabel")
-
-            return dateLabel
-        }else{
-            return "ERROR"
-        }
-    }
-
-    private fun String.isYear(): Boolean {
-        return when {
-            this.length == 4 -> {
-                val i = this.toIntOrNull()
-                when(i) {
-                    null -> false
-                    else -> true
-                }
-            }
-            else -> false
-        }
-    }
-
-    private fun String.isMonthOrDay(): Boolean {
-        return when {
-            this.length == 2 -> {
-                val i = this.toIntOrNull()
-                when(i) {
-                    null -> false
-                    else -> true
-                }
-            }
-            else -> false
-        }
-    }
-
-    class FilterImageImpl(val image: BufferedImage): FilterImage() {
-
-        override var width: Int
-            get() = image.width
-
-            @Suppress("UNUSED_PARAMETER")
-            set(value) {
-                //unused'
-            }
-
-        override var height: Int
-            get() = image.height
-
-            @Suppress("UNUSED_PARAMETER")
-            set(value) {
-                //unused
-            }
-
-        override fun getPixel(x: Int, y: Int): Int {
-            return image.getRGB(x, y)
-        }
-
-        override fun setPixel(x: Int, y: Int, colour: Int) {
-            image.setRGB(x, y, colour)
+    private fun convertImage(saveDir: File, source: String, conversion: ImageConversion): String?{
+        return when(conversion){
+            ImageConversion.NONE -> null
+            ImageConversion.COLOR_SCALE -> ImageProcessor.colorResize(saveDir, source)
+            ImageConversion.GREYSCALE_SCALE -> ImageProcessor.greyscaleResize(saveDir, source)
+            ImageConversion.DITHER -> ImageProcessor.ditherResize(saveDir, source, defaultFilter, threshold)
         }
     }
 }

@@ -14,10 +14,24 @@ abstract class Filter {
     companion object {
         fun find(fileRef: String): Filter? {
             return when {
-                fileRef.contains("8by8Bayer") -> Filter8By48Bayer()
+                fileRef.contains("2by2Bayer") -> Filter2By2Bayer()
+                fileRef.contains("3by3Bayer") -> Filter3By3Bayer()
                 fileRef.contains("4by4Bayer") -> Filter4By4Bayer()
+                fileRef.contains("5by3Bayer") -> Filter5By3Bayer()
+                fileRef.contains("8by8Bayer") -> Filter8By48Bayer()
+                fileRef.contains("FloydSteinberg") -> FilterFloydSteinberg()
+                fileRef.contains("FalseFloydSteinberg") -> FilterFalseFloydSteinberg()
+                fileRef.contains("NewspaperHalftone") -> FilterNewspaperHalftone()
                 fileRef.contains("JarvisJudiceNinke") -> FilterJarvisJudiceNinke()
+                fileRef.contains("Sierra") -> FilterSierra()
+                fileRef.contains("SierraLite") -> FilterSierraLite()
+                fileRef.contains("TwoRowSierra") -> FilterTwoRowSierra()
                 fileRef.contains("Burkes") -> FilterBurkes()
+                fileRef.contains("Atkinson") -> FilterAtkinson()
+                fileRef.contains("Stucki") -> FilterStucki()
+                fileRef.contains("ErrorDif") -> FilterLeftToRightErrorDiffusion()
+                fileRef.contains("Threshold") -> FilterThreshold()
+                fileRef.contains("Random") -> FilterRandom()
                 else -> null
             }
         }
