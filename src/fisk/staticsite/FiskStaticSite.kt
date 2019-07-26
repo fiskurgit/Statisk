@@ -20,6 +20,8 @@ import java.lang.StringBuilder
 
  */
 fun main(args: Array<String>) {
+    Generator().parseArguments(args)
+    /*
     if(args.isEmpty() || args[0] == "help"){
         Out.help()
     }else if(args.size == 1){
@@ -30,8 +32,9 @@ fun main(args: Array<String>) {
         val bRef = args[1]
         Generator().build(aRef, bRef)
     }else{
-        Generator().die("Error: Too many arguments")
+        Out.die("Error: Too many arguments")
     }
+    */
 }
 
 class Generator {
@@ -44,7 +47,7 @@ class Generator {
     private var webroot: File? = null
 
     //Dither
-    private val defaultFilter = "Atkinson"
+    private var ditherAlgorithm = "Atkinson"
     private var threshold = 128
 
     enum class ImageConversion{
@@ -54,17 +57,66 @@ class Generator {
         DITHER
     }
 
-    private var defaultConversion = ImageConversion.DITHER
+    private val defaultConversion = ImageConversion.COLOR_SCALE
+    private var conversion = defaultConversion
 
     companion object {
         const val TEMPLATE = "_template.html"
         const val MAX_IMG_WIDTH = 960
     }
 
-    fun die(message: String){
-        Out.l(message)
-        Out.help()
-        System.exit(-1)
+    fun parseArguments(args: Array<String>) {
+        if (args.isEmpty() || args[0] == "help"){
+            Out.help()
+        }
+
+        var directory: String? = null
+
+        var argIndex = 0
+        args.forEach { arg ->
+            when(arg){
+                //Flags:
+                "-convert_none" -> conversion = ImageConversion.NONE
+                "-convert_greyscale" -> conversion = ImageConversion.GREYSCALE_SCALE
+                "-convert_color" -> conversion = ImageConversion.COLOR_SCALE
+                "-dither" -> conversion = ImageConversion.DITHER
+                //Requiring arguments:
+                "-algorithm" -> {
+                    if(argIndex + 1 < args.size){
+                        conversion = ImageConversion.DITHER
+                        ditherAlgorithm = args[argIndex + 1]
+                    }else{
+                        Out.die("-algorithm requires a dithering algorithm, see -help for options")
+                    }
+
+                }
+                "-threshold" -> {
+                    if(argIndex + 1 < args.size){
+                        val thresholdArg  = args[argIndex + 1].toIntOrNull()
+                        if(thresholdArg == null){
+                            Out.die("Bad argument: -threshold requires a value in range 0 to 255")
+                        }else{
+                            threshold = thresholdArg
+                        }
+                    }else{
+                        Out.die("-threshold requires a value in range 0 to 255")
+                    }
+                }
+                "-dir" -> {
+                    if(argIndex + 1 < args.size){
+                        directory = args[argIndex + 1]
+                    }else{
+                        Out.die("-dir requires a directory")
+                    }
+                }
+            }
+
+            argIndex++
+        }
+
+        if(directory != null){
+            build(directory!!)
+        }
     }
 
     fun build(fileARef: String){
@@ -99,7 +151,7 @@ class Generator {
                 isSingle = true
                 when {
                     template.exists() -> parseMarkdown(fileA, template, false)
-                    else -> die("Could not find _template.html, check it exists in root and post directory structure is correct")
+                    else -> Out.die("Could not find _template.html, check it exists in root and post directory structure is correct")
                 }
 
             }
@@ -151,10 +203,10 @@ class Generator {
                             System.exit(0)
                         }
                     }
-                    else -> die("Could not find _template.html, check it exists in the website root and you're passing the correct path")
+                    else -> Out.die("Could not find _template.html, check it exists in the website root and you're passing the correct path")
                 }
             }
-            else -> die("Bad arguments, check your file references")
+            else -> Out.die("Bad arguments, check your file references")
         }
     }
 
@@ -302,7 +354,7 @@ class Generator {
             ImageConversion.NONE -> null
             ImageConversion.COLOR_SCALE -> ImageProcessor.colorResize(saveDir, source)
             ImageConversion.GREYSCALE_SCALE -> ImageProcessor.greyscaleResize(saveDir, source)
-            ImageConversion.DITHER -> ImageProcessor.ditherResize(saveDir, source, defaultFilter, threshold)
+            ImageConversion.DITHER -> ImageProcessor.ditherResize(saveDir, source, ditherAlgorithm, threshold)
         }
     }
 }

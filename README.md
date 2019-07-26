@@ -4,7 +4,7 @@ Static site generator heavily inspired by [Low←Tech Magazine](https://solar.lo
 
 Work in progress/a hacky mess. DO NOT USE.
 
-Converts Markdown files to simple Html with monochrome dithered images creating extremely low-bandwidth web pages.
+Converts Markdown files to simple Html with support for extreme image size reduction for low-bandwidth web pages.
 
 ![screenshot](screenshot.png)
 
@@ -59,20 +59,11 @@ Markdown posts need to be in a Year/Month/Day (`YYYY/MM/DD`) directory structure
 * `statisk index.md` - Convert single post and images, Statisk will look for `_template.html` thee directories up in the hierarchy
 * `statisk index.md path/to/_a_new_template.html` - Convert single post and images using the supplied template.
 
-## Filter Override
+## Image Conversion
 
-Not all images look great with the default filter settings. To override add `filter_override` to the image name followed by the filter (See Filter.kt). To override the standard threshold value of 128 end the filename with `_255.jpeg`, you must also override the filter to trigger this, eg.
+The default behaviour is to resize any images larger than 960px to 960px. You can override this with various options:
 
-```example_filter_override_8by8Bayer_255.jpeg```
-
-
-To keep the original image entirely add `no_transform`, eg:
-
-```example_no_transform.jpeg```
-
-To have no filter but still scale the image to a reasonable size use `no_filter`:
-
-```example_no_filter.jpeg```
+* `statisk path/to/websiteroot/`
 
 ## Future Plans
 

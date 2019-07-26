@@ -32,6 +32,8 @@ object Out {
         l("ErrorDif")
         l("Threshold")
         l("Random")
+
+        System.exit(0)
     }
 
     fun l(message: String) {
@@ -40,5 +42,10 @@ object Out {
 
     fun d(message: String) {
         println("DEBUG: $message")
+    }
+
+    fun die(message: String) {
+        l(message)
+        System.exit(-1)
     }
 }
