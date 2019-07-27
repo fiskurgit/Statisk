@@ -63,7 +63,16 @@ Markdown posts need to be in a Year/Month/Day (`YYYY/MM/DD`) directory structure
 
 The default behaviour is to resize any images larger than 960px to 960px. You can override this with various options:
 
-* `statisk path/to/websiteroot/`
+* `statisk -dir path/to/websiteroot/ -convert_color` - this is the default behaviour, images are resized to max image width (default is 960px)
+* `statisk -dir path/to/websiteroot/ -convert_none` - leave all images as they are
+* `statisk -dir path/to/websiteroot/ -convert_greyscale` - reduce image filesizes by converting to greyscale and resizing to max image width
+* `statisk -dir path/to/websiteroot/ -dither` - use the default monochrome dither algorithm (Atkinson) to drastically reduce image sizes
+* `statisk -dir path/to/websiteroot/ -algorithm atkinson` - specify dither algorithm to drastically reduce image sizes (see available options below)
+* `statisk -dir path/to/websiteroot/ -dither -threshold 255` - set the the threshold value for dithering, default is 128
+
+## Dithering
+
+_TODO_
 
 ## Future Plans
 

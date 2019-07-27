@@ -2,6 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9b390b61-72a1-40ca-99a0-dc75379d4d2a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/FiskStaticSiteKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/FiskStaticSiteKt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator$Companion.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator$Companion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator$ImageConversion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator$Link.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator$Link.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor$FilterImageImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor$FilterImageImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor$SAVEMODE.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor$SAVEMODE.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor$WhenMappings.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor$WhenMappings.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fisk/staticsite/Filter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/fisk/staticsite/Filter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt" afterDir="false" />
     </list>
@@ -14,11 +27,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="43" selection-start-line="2" selection-start-column="43" selection-end-line="2" selection-end-column="43" />
+            <state relative-caret-position="390">
+              <caret line="315" column="50" selection-start-line="315" selection-start-column="50" selection-end-line="315" selection-end-column="50" />
+              <folding>
+                <element signature="e#25#521#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/Config.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -27,8 +52,8 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="494">
-                <caret line="65" column="32" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="32" />
+              <first_editor relative-caret-position="383">
+                <caret line="69" column="56" selection-start-line="69" selection-start-column="56" selection-end-line="69" selection-end-column="56" />
               </first_editor>
               <second_editor />
             </state>
@@ -44,13 +69,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="302">
-              <caret line="34" column="111" selection-start-line="34" selection-start-column="111" selection-end-line="34" selection-end-column="111" />
+            <state relative-caret-position="375">
+              <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
               <folding>
-                <element signature="e#31#406#0" expanded="true" />
+                <element signature="e#31#430#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -59,8 +84,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/Filter.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="510">
+              <caret line="34" column="40" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -83,6 +108,7 @@
       <find>&lt;p</find>
       <find>Generator.</find>
       <find>defaultConversion</find>
+      <find>MAX_IMG_WIDTH</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -96,11 +122,12 @@
         <option value="$PROJECT_DIR$/_template.html" />
         <option value="$PROJECT_DIR$/src/fisk/staticsite/Help.kt" />
         <option value="$PROJECT_DIR$/src/fisk/staticsite/Extensions.kt" />
-        <option value="$PROJECT_DIR$/src/fisk/staticsite/Filter.kt" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/fisk/staticsite/Out.kt" />
-        <option value="$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/fisk/staticsite/Filter.kt" />
+        <option value="$PROJECT_DIR$/src/fisk/staticsite/Config.kt" />
         <option value="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" />
+        <option value="$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt" />
       </list>
     </option>
   </component>
@@ -150,7 +177,7 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564225709327" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564229058381" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -232,7 +259,7 @@
     <frame x="0" y="0" width="1680" height="1050" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14285715" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14285715" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -240,8 +267,8 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32941177" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32871288" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32857144" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32857144" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -249,8 +276,8 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Flutter Performance" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.32772276" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3377551" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.327551" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.3377551" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -305,7 +332,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/fisk/staticsite/Filter.kt</url>
-          <line>15</line>
+          <line>16</line>
           <properties />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
@@ -417,13 +444,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/Filter.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/Out.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
@@ -431,11 +451,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/Filter.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" column="40" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="494">
-            <caret line="65" column="32" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="32" />
+          <first_editor relative-caret-position="383">
+            <caret line="69" column="56" selection-start-line="69" selection-start-column="56" selection-end-line="69" selection-end-column="56" />
           </first_editor>
           <second_editor />
         </state>
@@ -446,20 +473,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt">
+    <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/Config.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="34" column="111" selection-start-line="34" selection-start-column="111" selection-end-line="34" selection-end-column="111" />
-          <folding>
-            <element signature="e#31#406#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="105">
+          <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="43" selection-start-line="2" selection-start-column="43" selection-end-line="2" selection-end-column="43" />
+        <state relative-caret-position="390">
+          <caret line="315" column="50" selection-start-line="315" selection-start-column="50" selection-end-line="315" selection-end-column="50" />
+          <folding>
+            <element signature="e#25#521#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
+          <folding>
+            <element signature="e#31#430#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

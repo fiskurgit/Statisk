@@ -1,8 +1,8 @@
 package fisk.staticsite.image
 
+import fisk.staticsite.Config
 import fisk.staticsite.Filter
 import fisk.staticsite.FilterImage
-import fisk.staticsite.Generator
 import fisk.staticsite.Out
 import java.awt.RenderingHints
 import java.awt.Transparency
@@ -16,34 +16,32 @@ import javax.imageio.ImageWriteParam
 
 object ImageProcessor {
 
-    enum class SAVEMODE{
+    enum class ImageSaveFormat {
         PNG,
         JPEG_HI,
         JPEG_MED,
         JPEG_LO
     }
 
-    enum class ImageConversion{
+    enum class ImageConversion {
         NONE,
         GREYSCALE_SCALE,
         COLOR_SCALE,
         DITHER
     }
 
-    var saveMode = SAVEMODE.JPEG_HI
+    var saveMode = ImageSaveFormat.JPEG_HI
 
-    fun convertImage(saveDir: File, source: String, conversion: ImageProcessor.ImageConversion, ditherAlgorithm: String, threshold: Int): String?{
-        return when(conversion){
+    fun convertImage(saveDir: File, source: String): String?{
+        return when(Config.imageConversion){
             ImageProcessor.ImageConversion.NONE -> null
             ImageProcessor.ImageConversion.COLOR_SCALE -> ImageProcessor.colorResize(saveDir, source)
             ImageProcessor.ImageConversion.GREYSCALE_SCALE -> ImageProcessor.greyscaleResize(saveDir, source)
-            ImageProcessor.ImageConversion.DITHER -> ImageProcessor.ditherResize(saveDir, source, ditherAlgorithm, threshold)
+            ImageProcessor.ImageConversion.DITHER -> ImageProcessor.ditherResize(saveDir, source, Config.ditherAlgorithm, Config.threshold)
         }
     }
 
-
-
-    fun colorResize(saveDir: File, source: String): String? {
+    private fun colorResize(saveDir: File, source: String): String? {
         Out.d("IMAGE PROCESSING: colorResize")
         val resized = resizedSource(saveDir, source)
         return when (resized) {
@@ -56,7 +54,7 @@ object ImageProcessor {
         }
     }
 
-    fun greyscaleResize(saveDir: File, source: String): String? {
+    private fun greyscaleResize(saveDir: File, source: String): String? {
         Out.d("IMAGE PROCESSING: greyscaleResize")
         val resized = resizedSource(saveDir, source)
         return when {
@@ -73,7 +71,7 @@ object ImageProcessor {
         }
     }
 
-    fun ditherResize(saveDir: File, source: String, ditherType: String, threshold: Int): String? {
+    private fun ditherResize(saveDir: File, source: String, ditherType: String, threshold: Int): String? {
         val filter = Filter.find(ditherType)
 
         if(filter == null){
@@ -100,8 +98,8 @@ object ImageProcessor {
 
     private fun getProcessedFilename(source: String): String{
         return when(saveMode){
-            SAVEMODE.PNG -> source.substring(0, source.lastIndexOf(".")) + "_processed.png"
-            SAVEMODE.JPEG_HI, SAVEMODE.JPEG_MED, SAVEMODE.JPEG_LO -> source.substring(0, source.lastIndexOf(".")) + "_processed.jpeg"
+            ImageSaveFormat.PNG -> source.substring(0, source.lastIndexOf(".")) + "_processed.png"
+            ImageSaveFormat.JPEG_HI, ImageSaveFormat.JPEG_MED, ImageSaveFormat.JPEG_LO -> source.substring(0, source.lastIndexOf(".")) + "_processed.jpeg"
         }
     }
 
@@ -111,7 +109,7 @@ object ImageProcessor {
         deleteOldImage(outputFile)
 
         val writer = when (saveMode) {
-            SAVEMODE.PNG -> ImageIO.getImageWritersByFormatName("png").next()
+            ImageSaveFormat.PNG -> ImageIO.getImageWritersByFormatName("png").next()
             else -> ImageIO.getImageWritersByFormatName("jpeg").next()
         }
 
@@ -122,10 +120,10 @@ object ImageProcessor {
             param.compressionMode = ImageWriteParam.MODE_EXPLICIT
 
             when(saveMode){
-                SAVEMODE.PNG -> param.compressionQuality = 0.0f
-                SAVEMODE.JPEG_HI -> param.compressionQuality = 0.85f
-                SAVEMODE.JPEG_MED -> param.compressionQuality = 0.65f
-                SAVEMODE.JPEG_LO -> param.compressionQuality = 0.50f
+                ImageSaveFormat.PNG -> param.compressionQuality = 0.0f
+                ImageSaveFormat.JPEG_HI -> param.compressionQuality = 0.85f
+                ImageSaveFormat.JPEG_MED -> param.compressionQuality = 0.65f
+                ImageSaveFormat.JPEG_LO -> param.compressionQuality = 0.50f
             }
 
         }else{
@@ -155,12 +153,12 @@ object ImageProcessor {
         }
 
         return when {
-            sourceImage.width > Generator.MAX_IMG_WIDTH -> resize(sourceImage, Generator.MAX_IMG_WIDTH)
+            sourceImage.width > Config.maxImageWidth -> resize(sourceImage, Config.maxImageWidth)
             else -> sourceImage
         }
     }
 
-    fun resize(src: BufferedImage, targetSize: Int): BufferedImage {
+    private fun resize(src: BufferedImage, targetSize: Int): BufferedImage {
         var targetWidth = targetSize
         var targetHeight = targetSize
         val ratio = src.height.toFloat() / src.width.toFloat()

@@ -32,16 +32,8 @@ class Generator {
     private var isSingle = false
     private var webroot: File? = null
 
-    //Dither
-    private var ditherAlgorithm = "Atkinson"
-    private var threshold = 128
-
-    private val defaultConversion = ImageProcessor.ImageConversion.COLOR_SCALE
-    private var conversion = defaultConversion
-
     companion object {
         const val TEMPLATE = "_template.html"
-        const val MAX_IMG_WIDTH = 960
     }
 
     fun parseArguments(args: Array<String>) {
@@ -55,15 +47,27 @@ class Generator {
         args.forEach { arg ->
             when(arg){
                 //Flags:
-                "-convert_none" -> conversion = ImageProcessor.ImageConversion.NONE
-                "-convert_greyscale" -> conversion = ImageProcessor.ImageConversion.GREYSCALE_SCALE
-                "-convert_color" -> conversion = ImageProcessor.ImageConversion.COLOR_SCALE
-                "-dither" -> conversion = ImageProcessor.ImageConversion.DITHER
+                "-convert_none" -> Config.imageConversion = ImageProcessor.ImageConversion.NONE
+                "-convert_greyscale" -> Config.imageConversion = ImageProcessor.ImageConversion.GREYSCALE_SCALE
+                "-convert_color" -> Config.imageConversion = ImageProcessor.ImageConversion.COLOR_SCALE
+                "-dither" -> Config.imageConversion = ImageProcessor.ImageConversion.DITHER
                 //Requiring arguments:
+                "-maxwidth" -> {
+                    if(argIndex + 1 < args.size){
+                        val maxWidthArg  = args[argIndex + 1].toIntOrNull()
+                        if(maxWidthArg == null){
+                            Out.die("Bad argument: -maxwidth requires a numbver")
+                        }else{
+                            Config.maxImageWidth = maxWidthArg
+                        }
+                    }else{
+                        Out.die("-maxwidth requires number")
+                    }
+                }
                 "-algorithm" -> {
                     if(argIndex + 1 < args.size){
-                        conversion = ImageProcessor.ImageConversion.DITHER
-                        ditherAlgorithm = args[argIndex + 1]
+                        Config.imageConversion = ImageProcessor.ImageConversion.DITHER
+                        Config.ditherAlgorithm = args[argIndex + 1]
                     }else{
                         Out.die("-algorithm requires a dithering algorithm, see -help for options")
                     }
@@ -75,7 +79,7 @@ class Generator {
                         if(thresholdArg == null){
                             Out.die("Bad argument: -threshold requires a value in range 0 to 255")
                         }else{
-                            threshold = thresholdArg
+                            Config.threshold = thresholdArg
                         }
                     }else{
                         Out.die("-threshold requires a value in range 0 to 255")
@@ -309,7 +313,7 @@ class Generator {
         }
 
         for(image in images){
-            val converted = ImageProcessor.convertImage(saveDir, image, defaultConversion, ditherAlgorithm, threshold)
+            val converted = ImageProcessor.convertImage(saveDir, image)
 
             when {
                 converted != null -> {
