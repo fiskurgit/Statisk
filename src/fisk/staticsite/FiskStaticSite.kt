@@ -21,20 +21,6 @@ import java.lang.StringBuilder
  */
 fun main(args: Array<String>) {
     Generator().parseArguments(args)
-    /*
-    if(args.isEmpty() || args[0] == "help"){
-        Out.help()
-    }else if(args.size == 1){
-        val aRef = args[0]
-        Generator().build(aRef)
-    }else if(args.size == 2){
-        val aRef = args[0]
-        val bRef = args[1]
-        Generator().build(aRef, bRef)
-    }else{
-        Out.die("Error: Too many arguments")
-    }
-    */
 }
 
 class Generator {
@@ -50,14 +36,7 @@ class Generator {
     private var ditherAlgorithm = "Atkinson"
     private var threshold = 128
 
-    enum class ImageConversion{
-        NONE,
-        GREYSCALE_SCALE,
-        COLOR_SCALE,
-        DITHER
-    }
-
-    private val defaultConversion = ImageConversion.COLOR_SCALE
+    private val defaultConversion = ImageProcessor.ImageConversion.COLOR_SCALE
     private var conversion = defaultConversion
 
     companion object {
@@ -76,14 +55,14 @@ class Generator {
         args.forEach { arg ->
             when(arg){
                 //Flags:
-                "-convert_none" -> conversion = ImageConversion.NONE
-                "-convert_greyscale" -> conversion = ImageConversion.GREYSCALE_SCALE
-                "-convert_color" -> conversion = ImageConversion.COLOR_SCALE
-                "-dither" -> conversion = ImageConversion.DITHER
+                "-convert_none" -> conversion = ImageProcessor.ImageConversion.NONE
+                "-convert_greyscale" -> conversion = ImageProcessor.ImageConversion.GREYSCALE_SCALE
+                "-convert_color" -> conversion = ImageProcessor.ImageConversion.COLOR_SCALE
+                "-dither" -> conversion = ImageProcessor.ImageConversion.DITHER
                 //Requiring arguments:
                 "-algorithm" -> {
                     if(argIndex + 1 < args.size){
-                        conversion = ImageConversion.DITHER
+                        conversion = ImageProcessor.ImageConversion.DITHER
                         ditherAlgorithm = args[argIndex + 1]
                     }else{
                         Out.die("-algorithm requires a dithering algorithm, see -help for options")
@@ -330,7 +309,7 @@ class Generator {
         }
 
         for(image in images){
-            val converted = convertImage(saveDir, image, defaultConversion)
+            val converted = ImageProcessor.convertImage(saveDir, image, defaultConversion, ditherAlgorithm, threshold)
 
             when {
                 converted != null -> {
@@ -347,15 +326,6 @@ class Generator {
     private fun fileSize(fileRef: String): Long{
         val file = File(fileRef)
         return file.length()
-    }
-
-    private fun convertImage(saveDir: File, source: String, conversion: ImageConversion): String?{
-        return when(conversion){
-            ImageConversion.NONE -> null
-            ImageConversion.COLOR_SCALE -> ImageProcessor.colorResize(saveDir, source)
-            ImageConversion.GREYSCALE_SCALE -> ImageProcessor.greyscaleResize(saveDir, source)
-            ImageConversion.DITHER -> ImageProcessor.ditherResize(saveDir, source, ditherAlgorithm, threshold)
-        }
     }
 }
 

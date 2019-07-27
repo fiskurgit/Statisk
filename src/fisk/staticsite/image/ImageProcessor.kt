@@ -23,7 +23,23 @@ object ImageProcessor {
         JPEG_LO
     }
 
+    enum class ImageConversion{
+        NONE,
+        GREYSCALE_SCALE,
+        COLOR_SCALE,
+        DITHER
+    }
+
     var saveMode = SAVEMODE.JPEG_HI
+
+    fun convertImage(saveDir: File, source: String, conversion: ImageProcessor.ImageConversion, ditherAlgorithm: String, threshold: Int): String?{
+        return when(conversion){
+            ImageProcessor.ImageConversion.NONE -> null
+            ImageProcessor.ImageConversion.COLOR_SCALE -> ImageProcessor.colorResize(saveDir, source)
+            ImageProcessor.ImageConversion.GREYSCALE_SCALE -> ImageProcessor.greyscaleResize(saveDir, source)
+            ImageProcessor.ImageConversion.DITHER -> ImageProcessor.ditherResize(saveDir, source, ditherAlgorithm, threshold)
+        }
+    }
 
 
 
