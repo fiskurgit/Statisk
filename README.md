@@ -8,10 +8,6 @@ Converts Markdown files to simple Html with support for extreme image size reduc
 
 ![screenshot](screenshot.png)
 
-### Links
-
-* https://github.com/lowtechmag/solar/wiki/Solar-Web-Design
-
 ### Format
 
 `_template.html` should be placed in root directory of the website, simple example:
@@ -74,6 +70,15 @@ The default behaviour is to resize any images larger than 960px to 960px. You ca
 
 _TODO_
 
+## To Do
+
+* Add gzip option
+
 ## Future Plans
 
 * RSS feed
+
+### Links
+
+* https://github.com/lowtechmag/solar/wiki/Solar-Web-Design
+* http://nginx.org/en/docs/http/ngx_http_gzip_static_module.html

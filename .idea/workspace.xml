@@ -4,19 +4,6 @@
     <list default="true" id="9b390b61-72a1-40ca-99a0-dc75379d4d2a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/FiskStaticSiteKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/FiskStaticSiteKt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator$Companion.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator$Companion.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator$ImageConversion.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator$Link.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator$Link.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator$WhenMappings.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/Generator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor$FilterImageImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor$FilterImageImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor$SAVEMODE.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor$SAVEMODE.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor$WhenMappings.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor$WhenMappings.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FiskStaticSite/fisk/staticsite/image/ImageProcessor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fisk/staticsite/Filter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/fisk/staticsite/Filter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -48,12 +35,12 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="383">
-                <caret line="69" column="56" selection-start-line="69" selection-start-column="56" selection-end-line="69" selection-end-column="56" />
+              <first_editor relative-caret-position="554">
+                <caret line="83" column="64" selection-start-line="83" selection-start-column="64" selection-end-line="83" selection-end-column="64" />
               </first_editor>
               <second_editor />
             </state>
@@ -69,10 +56,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
+            <state relative-caret-position="370">
               <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
               <folding>
                 <element signature="e#31#430#0" expanded="true" />
@@ -123,11 +110,11 @@
         <option value="$PROJECT_DIR$/src/fisk/staticsite/Help.kt" />
         <option value="$PROJECT_DIR$/src/fisk/staticsite/Extensions.kt" />
         <option value="$PROJECT_DIR$/src/fisk/staticsite/Out.kt" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/fisk/staticsite/Filter.kt" />
         <option value="$PROJECT_DIR$/src/fisk/staticsite/Config.kt" />
         <option value="$PROJECT_DIR$/src/fisk/staticsite/FiskStaticSite.kt" />
         <option value="$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -177,7 +164,7 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564229058381" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564316991746" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -268,7 +255,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32857144" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32857144" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32857144" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -277,7 +264,7 @@
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Flutter Performance" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.327551" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.3377551" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3377551" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -458,21 +445,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="383">
-            <caret line="69" column="56" selection-start-line="69" selection-start-column="56" selection-end-line="69" selection-end-column="56" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/Config.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -492,11 +464,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
+        <state relative-caret-position="370">
           <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
           <folding>
             <element signature="e#31#430#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="554">
+            <caret line="83" column="64" selection-start-line="83" selection-start-column="64" selection-end-line="83" selection-end-column="64" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
         </state>
       </provider>
     </entry>
