@@ -3,7 +3,11 @@ package fisk.staticsite
 import java.io.File
 import java.text.DecimalFormat
 
+/*
 
+    These are awful implementation specific extensions, they should just be static methods in an object.
+
+ */
 fun File.dir(): File {
     val dirPath = this.absolutePath.substring(0, this.absolutePath.lastIndexOf("/"))
     return File(dirPath)
