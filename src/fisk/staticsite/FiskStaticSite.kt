@@ -51,7 +51,8 @@ class Generator {
                 "-convert_greyscale" -> Config.imageConversion = ImageProcessor.ImageConversion.GREYSCALE_SCALE
                 "-convert_color" -> Config.imageConversion = ImageProcessor.ImageConversion.COLOR_SCALE
                 "-dither" -> Config.imageConversion = ImageProcessor.ImageConversion.DITHER
-                //Requiring arguments:
+                "-gzip" -> Config.gzip = true //not implemented yet
+                //Settings requiring arguments:
                 "-maxwidth" -> {
                     if(argIndex + 1 < args.size){
                         val maxWidthArg  = args[argIndex + 1].toIntOrNull()
@@ -98,15 +99,11 @@ class Generator {
         }
 
         if(directory != null){
-            build(directory!!)
+            build(directory!!, null)
         }
     }
 
-    fun build(fileARef: String){
-        build(fileARef, null)
-    }
-
-    fun build(fileARef: String, fileBRef: String?) {
+    private fun build(fileARef: String, fileBRef: String?) {
         Out.welcome()
 
         val fileA = File(fileARef)
@@ -261,7 +258,7 @@ class Generator {
 
 
         pageBytes += output.toByteArray().size
-        output = output.replace("{{ page_size }}", "Page size including images: ${readableFileSize(pageBytes)}")
+        output = output.replace("{{ page_size }}", "Page size including images: ${pageBytes.bytesToLabel()}")
 
         val outputFile = File(mdFile.dir(), mdFile.nameWithoutExtension + ".html")
         outputFile.writeText(output, Charsets.UTF_8)
@@ -286,18 +283,6 @@ class Generator {
         //ends
     }
 
-    private fun readableFileSize(size: Long): String {
-        if (size <= 0) return "0"
-        val units = arrayOf("pageBytes", "kb", "MB", "GB", "TB")
-        val digitGroups = (Math.log10(size.toDouble()) / Math.log10(1024.0)).toInt()
-        return DecimalFormat("#,##0.#").format(
-            size / Math.pow(
-                1024.0,
-                digitGroups.toDouble()
-            )
-        ) + units[digitGroups]
-    }
-
     private fun convertImages(saveDir: File, _html: String): String{
         var html = _html
         Out.l("Looking for image tags")
@@ -317,19 +302,14 @@ class Generator {
 
             when {
                 converted != null -> {
-                    pageBytes += fileSize(File(saveDir, converted).path)
+                    pageBytes += File(saveDir, converted).path.fileSize()
                     html = html.replace(image, converted)
                 }
-                else -> pageBytes += fileSize(File(saveDir, image).path)
+                else -> pageBytes += File(saveDir, image).path.fileSize()
             }
         }
 
         return html
-    }
-
-    private fun fileSize(fileRef: String): Long{
-        val file = File(fileRef)
-        return file.length()
     }
 }
 

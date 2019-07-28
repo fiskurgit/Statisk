@@ -1,6 +1,7 @@
 package fisk.staticsite
 
 import java.io.File
+import java.text.DecimalFormat
 
 
 fun File.dir(): File {
@@ -57,4 +58,21 @@ fun String.isMonthOrDay(): Boolean {
         }
         else -> false
     }
+}
+
+fun String.fileSize(): Long{
+    val file = File(this)
+    return file.length()
+}
+
+fun Long.bytesToLabel(): String{
+    if (this <= 0) return "0kb"
+    val units = arrayOf("pageBytes", "kb", "MB", "GB", "TB")
+    val digitGroups = (Math.log10(this.toDouble()) / Math.log10(1024.0)).toInt()
+    return DecimalFormat("#,##0.#").format(
+        this / Math.pow(
+            1024.0,
+            digitGroups.toDouble()
+        )
+    ) + units[digitGroups]
 }

@@ -7,4 +7,5 @@ object Config {
     var ditherAlgorithm = "Atkinson"
     var threshold = 128
     var maxImageWidth  = 960
+    var gzip: Boolean = false
 }
