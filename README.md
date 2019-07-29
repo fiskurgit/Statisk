@@ -89,4 +89,4 @@ _TODO_
 
 ## Issues/To do
 
-* Dither algorithm should validate
+* ...

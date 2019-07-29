@@ -85,10 +85,16 @@ class Generator {
                 }
                 "-algorithm" -> {
                     if(argIndex + 1 < args.size){
-                        Config.imageConversion = ImageProcessor.ImageConversion.DITHER
-                        Config.ditherAlgorithm = args[argIndex + 1]
+                        val requestedAlgorithm = args[argIndex + 1]
+                        val filter = Filter.find(requestedAlgorithm)
+                        if(filter != null){
+                            Config.imageConversion = ImageProcessor.ImageConversion.DITHER
+                            Config.ditherFilter = filter
+                        }else{
+                            Out.die("-algorithm filter $requestedAlgorithm not recognised, see -help for available options")
+                        }
                     }else{
-                        Out.die("-algorithm requires a dithering algorithm, see -help for options")
+                        Out.die("-algorithm requires a dithering algorithm, see -help for available options")
                     }
 
                 }
