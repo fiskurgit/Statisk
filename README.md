@@ -97,6 +97,7 @@ Available dithering algorithms (from [DitherKt](https://github.com/fiskurgit/Dit
 | -convert_dither | 36kb | Images resized to 960px and dithered using default Atkinson method |  
 | -algorithm 8by8bayer -threshold 245 | 29kb | As above but using 8x8 Bayer method which has more contiguous blocks |   
 | -algorithm 8by8bayer -threshold 245 -maxwidth 680 | 17kb | As above but resized to 680 first |  
+| -algorithm 8by8bayer -threshold 245 -maxwidth 680 -gzip | 14kb | As above, but gzip'd (requires server config) |  
 
 ## Future Plans
 
