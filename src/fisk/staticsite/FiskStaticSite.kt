@@ -8,6 +8,11 @@ import java.io.File
 import java.util.regex.Pattern
 
 import java.lang.StringBuilder
+import java.util.zip.GZIPOutputStream
+import java.io.OutputStreamWriter
+import java.io.FileOutputStream
+
+
 
 /*
 
@@ -49,8 +54,8 @@ class Generator {
                 "-convert_none" -> Config.imageConversion = ImageProcessor.ImageConversion.NONE
                 "-convert_greyscale" -> Config.imageConversion = ImageProcessor.ImageConversion.GREYSCALE_SCALE
                 "-convert_color" -> Config.imageConversion = ImageProcessor.ImageConversion.COLOR_SCALE
-                "-dither" -> Config.imageConversion = ImageProcessor.ImageConversion.DITHER
-                "-gzip" -> Config.gzip = true //not implemented yet
+                "-convert_dither" -> Config.imageConversion = ImageProcessor.ImageConversion.DITHER
+                "-gzip" -> Config.gzip = true
                 //Settings requiring arguments:
                 "-image_format" -> {
                     if(argIndex + 1 < args.size){
@@ -70,7 +75,7 @@ class Generator {
                     if(argIndex + 1 < args.size){
                         val maxWidthArg  = args[argIndex + 1].toIntOrNull()
                         if(maxWidthArg == null){
-                            Out.die("Bad argument: -maxwidth requires a numbver")
+                            Out.die("Bad argument: -maxwidth requires a number")
                         }else{
                             Config.maxImageWidth = maxWidthArg
                         }
@@ -275,6 +280,17 @@ class Generator {
 
         val outputFile = File(mdFile.dir(), mdFile.nameWithoutExtension + ".html")
         outputFile.writeText(output, Charsets.UTF_8)
+
+        if(Config.gzip){
+            val gzipFile = File(mdFile.dir(), mdFile.nameWithoutExtension + ".gz")
+            val gzipFOS = FileOutputStream(gzipFile)
+            gzipFOS.use { fos ->
+                val writer = OutputStreamWriter(GZIPOutputStream(fos), "UTF-8")
+                writer.use { osw ->
+                    osw.write(output)
+                }
+            }
+        }
 
         Out.l("${mdFile.name} converted to ${outputFile.name}")
         Out.d(outputFile.absolutePath)

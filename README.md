@@ -62,17 +62,21 @@ The default behaviour is to resize any images larger than 960px to 960px. You ca
 * `statisk -dir path/to/websiteroot/ -convert_color` - this is the default behaviour, images are resized to max image width (default is 960px)
 * `statisk -dir path/to/websiteroot/ -convert_none` - leave all images as they are
 * `statisk -dir path/to/websiteroot/ -convert_greyscale` - reduce image filesizes by converting to greyscale and resizing to max image width
-* `statisk -dir path/to/websiteroot/ -dither` - use the default monochrome dither algorithm (Atkinson) to drastically reduce image sizes
+* `statisk -dir path/to/websiteroot/ -convert_dither` - use the default monochrome dither algorithm (Atkinson) to drastically reduce image sizes
 * `statisk -dir path/to/websiteroot/ -algorithm atkinson` - specify dither algorithm to drastically reduce image sizes (see available options below)
 * `statisk -dir path/to/websiteroot/ -dither -threshold 255` - set the the threshold value for dithering, default is 128
+
+The default image file format is .png, you can specify jpeg:
+
+* `statisk -dir path/to/websiteroot/ -image_format jpeg-high` - options are `png`, `jpeg` (medium quality: 0.65), `jpeg_low` (0.5), `jpeg_medium`, or `jpeg_high` (0.85) 
+
+### Other Flags
+
+* `-gzip` - saves a compressed file alongside any html so the server can save some processing ([if supported](http://nginx.org/en/docs/http/ngx_http_gzip_static_module.html)), eg. index.html, index.gz
 
 ## Dithering
 
 _TODO_
-
-## To Do
-
-* Add gzip option
 
 ## Future Plans
 
@@ -82,3 +86,7 @@ _TODO_
 
 * https://github.com/lowtechmag/solar/wiki/Solar-Web-Design
 * http://nginx.org/en/docs/http/ngx_http_gzip_static_module.html
+
+## Issues/To do
+
+* Dither algorithm should validate

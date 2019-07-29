@@ -83,7 +83,7 @@ object ImageProcessor {
             resized != null -> {
                 val destination = BufferedImage(resized.width, resized.height, BufferedImage.TYPE_BYTE_GRAY)
                 val destinationImpl = FilterImageImpl(destination)
-                filter?.threshold(threshold)?.process(FilterImageImpl(resized), destinationImpl)
+                filter.threshold(threshold).process(FilterImageImpl(resized), destinationImpl)
                 val outputFile = File(saveDir, getProcessedFilename(source))
                 saveProcessedImage(outputFile, destinationImpl.image)
                 outputFile.name
