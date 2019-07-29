@@ -51,9 +51,10 @@ Markdown posts need to be in a Year/Month/Day (`YYYY/MM/DD`) directory structure
 
 ## Usage
 
-* `statisk path/to/websiteroot/` - Statisk will then iterate over the directories and convert the markdown and images
-* `statisk index.md` - Convert single post and images, Statisk will look for `_template.html` thee directories up in the hierarchy
-* `statisk index.md path/to/_a_new_template.html` - Convert single post and images using the supplied template.
+* `statisk path/to/websiteroot/` - Statisk will iterate over the directories and convert the markdown and images using default settings
+* `statisk index.md` - Convert single post and images, Statisk will look for `_template.html` three directories up in the hierarchy
+* `statisk index.md path/to/_a_new_template.html` - Convert single post and images using the supplied template, useful when redesigning a site.
+* `statisk -single index.md  -template path/to/_a_new_template.html` - As above but with explicit arguments.
 
 ## Image Conversion
 
@@ -79,6 +80,10 @@ The default image file format is .png, you can specify jpeg:
 Available dithering algorithms (from [DitherKt](https://github.com/fiskurgit/DitherKt)):
 
 2by2Bayer, 3by3Bayer, 4by4Bayer, 5by3Bayer, 8by8Bayer, FloydSteinberg, FalseFloydSteinberg, NewspaperHalftone, JarvisJudiceNinke, Sierra, SierraLite, TwoRowSierra, Burkes, Atkinson, Stucki, ErrorDif, Threshold, Random
+
+## Examples
+
+* `statisk -dir /Users/pip/pi/fisk_solar_website/ -algorithm 8by8bayer -image_format png -maxwidth 800`
 
 ## Future Plans
 

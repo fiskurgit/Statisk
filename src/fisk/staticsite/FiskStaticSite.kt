@@ -12,8 +12,6 @@ import java.util.zip.GZIPOutputStream
 import java.io.OutputStreamWriter
 import java.io.FileOutputStream
 
-
-
 /*
 
     This is terrible terrible stream-of-thought code that will probably never be refactored into something sane and safe.
@@ -45,85 +43,148 @@ class Generator {
             Out.help()
         }
 
-        var directory: String? = null
+        var directoryArg: String? = null
+        var fileArg: String? = null
+        var templateArg: String? = null
 
-        var argIndex = 0
-        args.forEach { arg ->
-            when(arg){
-                //Flags:
-                "-convert_none" -> Config.imageConversion = ImageProcessor.ImageConversion.NONE
-                "-convert_greyscale" -> Config.imageConversion = ImageProcessor.ImageConversion.GREYSCALE_SCALE
-                "-convert_color" -> Config.imageConversion = ImageProcessor.ImageConversion.COLOR_SCALE
-                "-convert_dither" -> Config.imageConversion = ImageProcessor.ImageConversion.DITHER
-                "-gzip" -> Config.gzip = true
-                //Settings requiring arguments:
-                "-image_format" -> {
-                    if(argIndex + 1 < args.size){
-                        val imageFormat  = args[argIndex + 1]
-                            when(imageFormat){
+        if(args.size == 1){
+            val arg = args[0]
+            val argFile = File(arg)
+            if(arg.endsWith(".md") && argFile.exists()){
+                fileArg = arg
+            }else if(argFile.exists() && argFile.isDirectory){
+                directoryArg = arg
+            }
+        }else if(args.size == 2){
+            val argA = args[0]
+            val argFileA = File(argA)
+
+            val argB = args[1]
+            val argFileB = File(argB)
+
+            if(argA.endsWith(".md")){
+                //Hopefully passing index.md and _template.html
+                if(argFileA.exists() && argB.endsWith(".html") && argFileB.exists()){
+                    fileArg = argA
+                    templateArg = argB
+                }else{
+                    Out.die("Bad arguments, check you're passing a valid reference to a markdown file and Statisk html template")
+                }
+            }else if(argA.endsWith(".html")){
+                //Hopefully passing _template.html and index.md
+                if(argFileA.exists() && argB.endsWith(".md") && argFileB.exists()){
+                    templateArg = argA
+                    fileArg = argB
+                }else{
+                    Out.die("Bad arguments, check you're passing a valid reference to a markdown file and Statisk html template")
+                }
+            }
+        }else {
+
+            var argIndex = 0
+            args.forEach { arg ->
+                when (arg) {
+                    //Flags:
+                    "-convert_none" -> Config.imageConversion = ImageProcessor.ImageConversion.NONE
+                    "-convert_greyscale" -> Config.imageConversion = ImageProcessor.ImageConversion.GREYSCALE_SCALE
+                    "-convert_color" -> Config.imageConversion = ImageProcessor.ImageConversion.COLOR_SCALE
+                    "-convert_dither" -> Config.imageConversion = ImageProcessor.ImageConversion.DITHER
+                    "-gzip" -> Config.gzip = true
+                    //Settings requiring arguments:
+                    "-image_format" -> {
+                        if (argIndex + 1 < args.size) {
+                            val imageFormat = args[argIndex + 1]
+                            when (imageFormat) {
                                 "png" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.PNG
                                 "jpeg" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_MED
                                 "jpeg_high" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_HI
                                 "jpeg_medium" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_MED
                                 "jpeg_low" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_LO
                             }
-                    }else{
-                        Out.die("-image_format requires png, jpeg, jpeg_high, jpeg_medium, or jpeg_low")
-                    }
-                }
-                "-maxwidth" -> {
-                    if(argIndex + 1 < args.size){
-                        val maxWidthArg  = args[argIndex + 1].toIntOrNull()
-                        if(maxWidthArg == null){
-                            Out.die("Bad argument: -maxwidth requires a number")
-                        }else{
-                            Config.maxImageWidth = maxWidthArg
+                        } else {
+                            Out.die("-image_format requires png, jpeg, jpeg_high, jpeg_medium, or jpeg_low")
                         }
-                    }else{
-                        Out.die("-maxwidth requires number")
                     }
-                }
-                "-algorithm" -> {
-                    if(argIndex + 1 < args.size){
-                        val requestedAlgorithm = args[argIndex + 1]
-                        val filter = Filter.find(requestedAlgorithm)
-                        if(filter != null){
-                            Config.imageConversion = ImageProcessor.ImageConversion.DITHER
-                            Config.ditherFilter = filter
-                        }else{
-                            Out.die("-algorithm filter $requestedAlgorithm not recognised, see -help for available options")
+                    "-maxwidth" -> {
+                        if (argIndex + 1 < args.size) {
+                            val maxWidthArg = args[argIndex + 1].toIntOrNull()
+                            if (maxWidthArg == null) {
+                                Out.die("Bad argument: -maxwidth requires a number")
+                            } else {
+                                Config.maxImageWidth = maxWidthArg
+                            }
+                        } else {
+                            Out.die("-maxwidth requires number")
                         }
-                    }else{
-                        Out.die("-algorithm requires a dithering algorithm, see -help for available options")
                     }
+                    "-algorithm" -> {
+                        if (argIndex + 1 < args.size) {
+                            val requestedAlgorithm = args[argIndex + 1]
+                            val filter = Filter.find(requestedAlgorithm)
+                            if (filter != null) {
+                                Config.imageConversion = ImageProcessor.ImageConversion.DITHER
+                                Config.ditherFilter = filter
+                            } else {
+                                Out.die("-algorithm filter $requestedAlgorithm not recognised, see -help for available options")
+                            }
+                        } else {
+                            Out.die("-algorithm requires a dithering algorithm, see -help for available options")
+                        }
 
-                }
-                "-threshold" -> {
-                    if(argIndex + 1 < args.size){
-                        val thresholdArg  = args[argIndex + 1].toIntOrNull()
-                        if(thresholdArg == null){
-                            Out.die("Bad argument: -threshold requires a value in range 0 to 255")
-                        }else{
-                            Config.threshold = thresholdArg
+                    }
+                    "-threshold" -> {
+                        if (argIndex + 1 < args.size) {
+                            val thresholdArg = args[argIndex + 1].toIntOrNull()
+                            if (thresholdArg == null) {
+                                Out.die("Bad argument: -threshold requires a value in range 0 to 255")
+                            } else {
+                                Config.threshold = thresholdArg
+                            }
+                        } else {
+                            Out.die("-threshold requires a value in range 0 to 255")
                         }
-                    }else{
-                        Out.die("-threshold requires a value in range 0 to 255")
+                    }
+                    "-dir" -> {
+                        if (argIndex + 1 < args.size) {
+                            directoryArg = args[argIndex + 1]
+                        } else {
+                            Out.die("-dir requires a directory")
+                        }
+                    }
+                    "-single" -> {
+                        if (argIndex + 1 < args.size) {
+                            fileArg = args[argIndex + 1]
+                        } else {
+                            Out.die("-dir requires a directory")
+                        }
+                    }
+                    "-template" -> {
+                        if (argIndex + 1 < args.size) {
+                            templateArg = args[argIndex + 1]
+                        } else {
+                            Out.die("-template requires a Statisk template to use")
+                        }
                     }
                 }
-                "-dir" -> {
-                    if(argIndex + 1 < args.size){
-                        directory = args[argIndex + 1]
-                    }else{
-                        Out.die("-dir requires a directory")
-                    }
-                }
+
+                argIndex++
             }
-
-            argIndex++
         }
 
-        if(directory != null){
-            build(directory!!, null)
+        when {
+            directoryArg != null -> {
+                //Iterate directories
+                build(directoryArg!!, null)
+            }
+            fileArg != null && templateArg == null -> {
+                //Build single with root template
+                build(fileArg!!, null)
+            }
+            fileArg != null && templateArg != null -> {
+                //Build single with supplied template
+                build(fileArg!!, templateArg)
+            }
+            else -> Out.die("Bad arguments. see -help for usage instructions")
         }
     }
 
