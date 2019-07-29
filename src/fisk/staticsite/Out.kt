@@ -14,6 +14,12 @@ object Out {
         l("USAGE - TODO")
 
         l("Available dithering algorithms:")
+        listDitherAlgorithms()
+
+        System.exit(0)
+    }
+
+    private fun listDitherAlgorithms(){
         l("2by2Bayer")
         l("3by3Bayer")
         l("4by4Bayer")
@@ -32,8 +38,6 @@ object Out {
         l("ErrorDif")
         l("Threshold")
         l("Random")
-
-        System.exit(0)
     }
 
     fun l(message: String) {
