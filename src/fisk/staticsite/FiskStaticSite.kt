@@ -4,6 +4,7 @@ import fisk.staticsite.image.ImageProcessor
 import org.intellij.markdown.flavours.commonmark.CommonMarkFlavourDescriptor
 import org.intellij.markdown.html.HtmlGenerator
 import org.intellij.markdown.parser.MarkdownParser
+import java.awt.Color
 import java.io.File
 import java.util.regex.Pattern
 
@@ -36,6 +37,8 @@ class Generator {
 
     companion object {
         const val TEMPLATE = "_template.html"
+
+        val config = Config()
     }
 
     fun parseArguments(args: Array<String>) {
@@ -85,21 +88,21 @@ class Generator {
             args.forEach { arg ->
                 when (arg) {
                     //Flags:
-                    "-convert_none" -> Config.imageConversion = ImageProcessor.ImageConversion.NONE
-                    "-convert_greyscale" -> Config.imageConversion = ImageProcessor.ImageConversion.GREYSCALE_SCALE
-                    "-convert_color" -> Config.imageConversion = ImageProcessor.ImageConversion.COLOR_SCALE
-                    "-convert_dither" -> Config.imageConversion = ImageProcessor.ImageConversion.DITHER
-                    "-gzip" -> Config.gzip = true
+                    "-convert_none" -> config.imageConversion = ImageProcessor.ImageConversion.NONE
+                    "-convert_greyscale" -> config.imageConversion = ImageProcessor.ImageConversion.GREYSCALE_SCALE
+                    "-convert_color" -> config.imageConversion = ImageProcessor.ImageConversion.COLOR_SCALE
+                    "-convert_dither" -> config.imageConversion = ImageProcessor.ImageConversion.DITHER
+                    "-gzip" -> config.gzip = true
                     //Settings requiring arguments:
                     "-image_format" -> {
                         if (argIndex + 1 < args.size) {
                             val imageFormat = args[argIndex + 1]
                             when (imageFormat) {
-                                "png" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.PNG
-                                "jpeg" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_MED
-                                "jpeg_high" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_HI
-                                "jpeg_medium" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_MED
-                                "jpeg_low" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_LO
+                                "png" -> config.imageFormat = ImageProcessor.ImageSaveFormat.PNG
+                                "jpeg" -> config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_MED
+                                "jpeg_high" -> config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_HI
+                                "jpeg_medium" -> config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_MED
+                                "jpeg_low" -> config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_LO
                             }
                         } else {
                             Out.die("-image_format requires png, jpeg, jpeg_high, jpeg_medium, or jpeg_low")
@@ -111,7 +114,7 @@ class Generator {
                             if (maxWidthArg == null) {
                                 Out.die("Bad argument: -maxwidth requires a number")
                             } else {
-                                Config.maxImageWidth = maxWidthArg
+                                config.maxImageWidth = maxWidthArg
                             }
                         } else {
                             Out.die("-maxwidth requires number")
@@ -122,8 +125,8 @@ class Generator {
                             val requestedAlgorithm = args[argIndex + 1]
                             val filter = Filter.find(requestedAlgorithm)
                             if (filter != null) {
-                                Config.imageConversion = ImageProcessor.ImageConversion.DITHER
-                                Config.ditherFilter = filter
+                                config.imageConversion = ImageProcessor.ImageConversion.DITHER
+                                config.ditherFilter = filter
                             } else {
                                 Out.die("-algorithm filter $requestedAlgorithm not recognised, see -help for available options")
                             }
@@ -138,8 +141,17 @@ class Generator {
                             if (thresholdArg == null) {
                                 Out.die("Bad argument: -threshold requires a value in range 0 to 255")
                             } else {
-                                Config.threshold = thresholdArg
+                                config.threshold = thresholdArg
                             }
+                        } else {
+                            Out.die("-threshold requires a value in range 0 to 255")
+                        }
+                    }
+                    "-foreground" -> {
+                        if (argIndex + 1 < args.size) {
+                            val foregroundArg = args[argIndex + 1]
+                            val foreground = Color.decode(foregroundArg)
+                            config.foregroundColor = foreground
                         } else {
                             Out.die("-threshold requires a value in range 0 to 255")
                         }
@@ -313,10 +325,24 @@ class Generator {
         }
     }
 
+    private fun checkConfigOverride(file: File){
+        val firstLine = file.bufferedReader().use { it.readLine() }
+
+        Out.l("checkConfigOverride: $firstLine")
+
+        if(firstLine.startsWith("<!---")){
+            //There may be config override
+
+        }
+    }
+
     private fun parseMarkdown(mdFile: File, template: File, isIndex: Boolean){
         Out.l("parsing Markdown...")
 
         val sourceMd = mdFile.readText()
+
+        checkConfigOverride(mdFile)
+
 
         val flavour = CommonMarkFlavourDescriptor()
         val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(sourceMd)
@@ -348,7 +374,7 @@ class Generator {
         val outputFile = File(mdFile.dir(), mdFile.nameWithoutExtension + ".html")
         outputFile.writeText(output, Charsets.UTF_8)
 
-        if(Config.gzip){
+        if(config.gzip){
             val gzipFile = File(mdFile.dir(), mdFile.nameWithoutExtension + ".gz")
             val gzipFOS = FileOutputStream(gzipFile)
             gzipFOS.use { fos ->

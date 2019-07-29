@@ -1,9 +1,7 @@
 package fisk.staticsite.image
 
-import fisk.staticsite.Config
-import fisk.staticsite.Filter
-import fisk.staticsite.FilterImage
-import fisk.staticsite.Out
+import fisk.staticsite.*
+import java.awt.Color
 import java.awt.RenderingHints
 import java.awt.Transparency
 import java.awt.image.BufferedImage
@@ -31,11 +29,11 @@ object ImageProcessor {
     }
 
     fun convertImage(saveDir: File, source: String): String?{
-        return when(Config.imageConversion){
+        return when(Generator.config.imageConversion){
             ImageProcessor.ImageConversion.NONE -> null
             ImageProcessor.ImageConversion.COLOR_SCALE -> ImageProcessor.colorResize(saveDir, source)
             ImageProcessor.ImageConversion.GREYSCALE_SCALE -> ImageProcessor.greyscaleResize(saveDir, source)
-            ImageProcessor.ImageConversion.DITHER -> ImageProcessor.ditherResize(saveDir, source, Config.ditherFilter, Config.threshold)
+            ImageProcessor.ImageConversion.DITHER -> ImageProcessor.ditherResize(saveDir, source, Generator.config.ditherFilter, Generator.config.threshold)
         }
     }
 
@@ -75,7 +73,8 @@ object ImageProcessor {
 
         return when {
             resized != null -> {
-                val destination = BufferedImage(resized.width, resized.height, BufferedImage.TYPE_BYTE_GRAY)
+                val destination = BufferedImage(resized.width, resized.height, BufferedImage.TYPE_INT_ARGB)
+
                 val destinationImpl = FilterImageImpl(destination)
                 filter.threshold(threshold).process(FilterImageImpl(resized), destinationImpl)
                 val outputFile = File(saveDir, getProcessedFilename(source))
@@ -89,7 +88,7 @@ object ImageProcessor {
     // Internal Private Methods:
 
     private fun getProcessedFilename(source: String): String{
-        return when(Config.imageFormat){
+        return when(Generator.config.imageFormat){
             ImageSaveFormat.PNG -> source.substring(0, source.lastIndexOf(".")) + "_processed.png"
             ImageSaveFormat.JPEG_HI, ImageSaveFormat.JPEG_MED, ImageSaveFormat.JPEG_LO -> source.substring(0, source.lastIndexOf(".")) + "_processed.jpeg"
         }
@@ -100,7 +99,7 @@ object ImageProcessor {
         //Delete old files first
         deleteOldImage(outputFile)
 
-        val writer = when (Config.imageFormat) {
+        val writer = when (Generator.config.imageFormat) {
             ImageSaveFormat.PNG -> ImageIO.getImageWritersByFormatName("png").next()
             else -> ImageIO.getImageWritersByFormatName("jpeg").next()
         }
@@ -111,7 +110,7 @@ object ImageProcessor {
             Out.d("canWriteCompressed: true")
             param.compressionMode = ImageWriteParam.MODE_EXPLICIT
 
-            when(Config.imageFormat){
+            when(Generator.config.imageFormat){
                 ImageSaveFormat.PNG -> param.compressionQuality = 0.0f
                 ImageSaveFormat.JPEG_HI -> param.compressionQuality = 0.85f
                 ImageSaveFormat.JPEG_MED -> param.compressionQuality = 0.65f
@@ -145,7 +144,7 @@ object ImageProcessor {
         }
 
         return when {
-            sourceImage.width > Config.maxImageWidth -> resize(sourceImage, Config.maxImageWidth)
+            sourceImage.width > Generator.config.maxImageWidth -> resize(sourceImage, Generator.config.maxImageWidth)
             else -> sourceImage
         }
     }
@@ -201,8 +200,8 @@ object ImageProcessor {
             return image.getRGB(x, y)
         }
 
-        override fun setPixel(x: Int, y: Int, colour: Int) {
-            image.setRGB(x, y, colour)
+        override fun setPixel(x: Int, y: Int, colour: Color) {
+            image.setRGB(x, y, colour.rgb)
         }
     }
 }

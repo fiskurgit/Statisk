@@ -1,11 +1,13 @@
 package fisk.staticsite
 
+import java.awt.Color
+
 abstract class FilterImage {
     abstract var width: Int
     abstract var height: Int
 
     abstract fun getPixel(x: Int, y: Int): Int
-    abstract fun setPixel(x: Int, y: Int, colour: Int)
+    abstract fun setPixel(x: Int, y: Int, colour: Color)
 
 }
 
@@ -39,8 +41,7 @@ abstract class Filter {
 
         var threshold = 128
 
-        const val BLACK = 0x000000
-        const val WHITE = 0xFFFFFF
+        var backgroundColor = Color(255, 255, 255, 0)
     }
 
     abstract fun process(source: FilterImage, destination: FilterImage)
@@ -78,8 +79,8 @@ abstract class Filter {
                     gray += gray * matrix[x % 2][y % 2] / 5
 
                     when {
-                        gray < threshold -> destination.setPixel(x, y, BLACK)
-                        else -> destination.setPixel(x, y, WHITE)
+                        gray < threshold -> destination.setPixel(x, y, Generator.config.foregroundColor)
+                        else -> if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                     }
                 }
             }
@@ -108,8 +109,8 @@ abstract class Filter {
                     gray += gray * matrix[x % 3][y % 3] / 10
 
                     when {
-                        gray < threshold -> destination.setPixel(x, y, BLACK)
-                        else -> destination.setPixel(x, y, WHITE)
+                        gray < threshold -> destination.setPixel(x, y, Generator.config.foregroundColor)
+                        else -> if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                     }
                 }
             }
@@ -137,8 +138,8 @@ abstract class Filter {
                     gray += gray * matrix[x % 4][y % 4] / 17
 
                     when {
-                        gray < threshold -> destination.setPixel(x, y, BLACK)
-                        else -> destination.setPixel(x, y, WHITE)
+                        gray < threshold -> destination.setPixel(x, y, Generator.config.foregroundColor)
+                        else -> if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                     }
                 }
             }
@@ -169,8 +170,8 @@ abstract class Filter {
                     gray += gray * matrix[x % 8][y % 8] / 65
 
                     when {
-                        gray < threshold -> destination.setPixel(x, y, BLACK)
-                        else -> destination.setPixel(x, y, WHITE)
+                        gray < threshold -> destination.setPixel(x, y, Generator.config.foregroundColor)
+                        else -> if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                     }
                 }
             }
@@ -201,8 +202,8 @@ abstract class Filter {
                     //gray += gray * matrix[y % 3][x % 5] / 16
 
                     when {
-                        gray < threshold -> destination.setPixel(x, y, BLACK)
-                        else -> destination.setPixel(x, y, WHITE)
+                        gray < threshold -> destination.setPixel(x, y, Generator.config.foregroundColor)
+                        else -> if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                     }
                 }
             }
@@ -234,8 +235,8 @@ abstract class Filter {
                     gray += gray * matrix[x % 8][y % 8] / 65
 
                     when {
-                        gray < threshold -> destination.setPixel(x, y, BLACK)
-                        else -> destination.setPixel(x, y, WHITE)
+                        gray < threshold -> destination.setPixel(x, y, Generator.config.foregroundColor)
+                        else -> if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                     }
                 }
             }
@@ -259,11 +260,11 @@ abstract class Filter {
                     when {
                         gray + errors[x][y] < threshold -> {
                             error = gray + errors[x][y]
-                            destination.setPixel(x, y, BLACK)
+                            destination.setPixel(x, y, Generator.config.foregroundColor)
                         }
                         else -> {
                             error = gray + errors[x][y] - 255
-                            destination.setPixel(x, y, WHITE)
+                            if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                         }
                     }
 
@@ -295,11 +296,11 @@ abstract class Filter {
                     when {
                         gray + errors[x][y] < threshold -> {
                             error = gray + errors[x][y]
-                            destination.setPixel(x, y, BLACK)
+                            destination.setPixel(x, y, Generator.config.foregroundColor)
                         }
                         else -> {
                             error = gray + errors[x][y] - 255
-                            destination.setPixel(x, y, WHITE)
+                            if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                         }
                     }
 
@@ -339,11 +340,11 @@ abstract class Filter {
                     when {
                         gray + errors[x][y] < threshold -> {
                             error = gray + errors[x][y]
-                            destination.setPixel(x, y, BLACK)
+                            destination.setPixel(x, y, Generator.config.foregroundColor)
                         }
                         else -> {
                             error = gray + errors[x][y] - 255
-                            destination.setPixel(x, y, WHITE)
+                            if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                         }
                     }
 
@@ -381,11 +382,11 @@ abstract class Filter {
                     when {
                         gray + errors[x][y] < threshold -> {
                             error = gray + errors[x][y]
-                            destination.setPixel(x, y, BLACK)
+                            destination.setPixel(x, y, Generator.config.foregroundColor)
                         }
                         else -> {
                             error = gray + errors[x][y] - 255
-                            destination.setPixel(x, y, WHITE)
+                            if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                         }
                     }
 
@@ -422,11 +423,11 @@ abstract class Filter {
                     when {
                         gray + errors[x][y] < threshold -> {
                             error = gray + errors[x][y]
-                            destination.setPixel(x, y, BLACK)
+                            destination.setPixel(x, y, Generator.config.foregroundColor)
                         }
                         else -> {
                             error = gray + errors[x][y] - 255
-                            destination.setPixel(x, y, WHITE)
+                            if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                         }
                     }
 
@@ -460,11 +461,11 @@ abstract class Filter {
                     when {
                         gray + errors[x][y] < threshold -> {
                             error = gray + errors[x][y]
-                            destination.setPixel(x, y, BLACK)
+                            destination.setPixel(x, y, Generator.config.foregroundColor)
                         }
                         else -> {
                             error = gray + errors[x][y] - 255
-                            destination.setPixel(x, y, WHITE)
+                            if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                         }
                     }
 
@@ -497,11 +498,11 @@ abstract class Filter {
                     when {
                         gray + errors[x][y] < threshold -> {
                             error = gray + errors[x][y]
-                            destination.setPixel(x, y, BLACK)
+                            destination.setPixel(x, y, Generator.config.foregroundColor)
                         }
                         else -> {
                             error = gray + errors[x][y] - 255
-                            destination.setPixel(x, y, WHITE)
+                            if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                         }
                     }
 
@@ -541,11 +542,11 @@ abstract class Filter {
                     when {
                         gray + errors[x][y] < threshold -> {
                             error = gray + errors[x][y]
-                            destination.setPixel(x, y, BLACK)
+                            destination.setPixel(x, y, Generator.config.foregroundColor)
                         }
                         else -> {
                             error = gray + errors[x][y] - 255
-                            destination.setPixel(x, y, WHITE)
+                            if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                         }
                     }
 
@@ -579,11 +580,11 @@ abstract class Filter {
                     when {
                         gray + errors[x][y] < threshold -> {
                             error = gray + errors[x][y]
-                            destination.setPixel(x, y, BLACK)
+                            destination.setPixel(x, y, Generator.config.foregroundColor)
                         }
                         else -> {
                             error = gray + errors[x][y] - 255
-                            destination.setPixel(x, y, WHITE)
+                            if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                         }
                     }
 
@@ -613,11 +614,11 @@ abstract class Filter {
                     when {
                         gray + error < threshold -> {
                             delta = gray
-                            destination.setPixel(x, y, BLACK)
+                            destination.setPixel(x, y, Generator.config.foregroundColor)
                         }
                         else -> {
                             delta = gray - 255
-                            destination.setPixel(x, y, WHITE)
+                            if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                         }
                     }
 
@@ -644,8 +645,8 @@ abstract class Filter {
                     val threshold = (Math.random() * 1000).toInt() % 256
 
                     when {
-                        gray < threshold -> destination.setPixel(x, y, BLACK)
-                        else -> destination.setPixel(x, y, WHITE)
+                        gray < threshold -> destination.setPixel(x, y, Generator.config.foregroundColor)
+                        else -> if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                     }
                 }
             }
@@ -664,8 +665,8 @@ abstract class Filter {
                     val gray = source.getPixel(x, y) shr 16 and 0xFF
 
                     when {
-                        gray < threshold -> destination.setPixel(x, y, BLACK)
-                        else -> destination.setPixel(x, y, WHITE)
+                        gray < threshold -> destination.setPixel(x, y, Generator.config.foregroundColor)
+                        else -> if(!Generator.config.transparentBackground) destination.setPixel(x, y, backgroundColor)
                     }
                 }
             }
