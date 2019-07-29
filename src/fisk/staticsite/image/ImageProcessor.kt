@@ -35,7 +35,7 @@ object ImageProcessor {
             ImageProcessor.ImageConversion.NONE -> null
             ImageProcessor.ImageConversion.COLOR_SCALE -> ImageProcessor.colorResize(saveDir, source)
             ImageProcessor.ImageConversion.GREYSCALE_SCALE -> ImageProcessor.greyscaleResize(saveDir, source)
-            ImageProcessor.ImageConversion.DITHER -> ImageProcessor.ditherResize(saveDir, source, Config.ditherAlgorithm, Config.threshold)
+            ImageProcessor.ImageConversion.DITHER -> ImageProcessor.ditherResize(saveDir, source, Config.ditherFilter, Config.threshold)
         }
     }
 
@@ -69,13 +69,7 @@ object ImageProcessor {
         }
     }
 
-    private fun ditherResize(saveDir: File, source: String, ditherType: String, threshold: Int): String? {
-        val filter = Filter.find(ditherType)
-
-        if(filter == null){
-            Out.l("Could not find dither filter matching: $ditherType - leaving original image instead")
-            return source
-        }
+    private fun ditherResize(saveDir: File, source: String, filter: Filter, threshold: Int): String? {
 
         val resized = resizedSource(saveDir, source)
 

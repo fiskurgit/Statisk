@@ -65,11 +65,12 @@ The default behaviour is to resize any images larger than 960px to 960px. You ca
 * `statisk -dir path/to/websiteroot/ -convert_greyscale` - reduce image filesizes by converting to greyscale and resizing to max image width
 * `statisk -dir path/to/websiteroot/ -convert_dither` - use the default monochrome dither algorithm (Atkinson) to drastically reduce image sizes
 * `statisk -dir path/to/websiteroot/ -algorithm atkinson` - specify dither algorithm to drastically reduce image sizes (see available options below)
-* `statisk -dir path/to/websiteroot/ -dither -threshold 255` - set the the threshold value for dithering, default is 128
+* `statisk -dir path/to/websiteroot/ -convert_dither -threshold 255` - set the the threshold value for dithering, default is 128
 
-The default image file format is .png, you can specify jpeg:
+The default image file format is .png at max width of 960px, you can specify jpeg and/or custom max width:
 
-* `statisk -dir path/to/websiteroot/ -image_format jpeg-high` - options are `png`, `jpeg` (medium quality: 0.65), `jpeg_low` (0.5), `jpeg_medium`, or `jpeg_high` (0.85) 
+* `statisk -dir path/to/websiteroot/ -image_format jpeg_high` - options are `png`, `jpeg` (medium quality: 0.65), `jpeg_low` (0.5), `jpeg_medium`, or `jpeg_high` (0.85) 
+* `statisk -dir path/to/websiteroot/ -maxwidth 800`
 
 ### Other Flags
 
@@ -83,7 +84,19 @@ Available dithering algorithms (from [DitherKt](https://github.com/fiskurgit/Dit
 
 ## Examples
 
-* `statisk -dir /Users/pip/pi/fisk_solar_website/ -algorithm 8by8bayer -image_format png -maxwidth 800`
+* `statisk -dir /Users/pip/pi/fisk_solar_website/ -algorithm 8by8bayer -threshold 255 -image_format png -maxwidth 800`
+
+## File Size Savings
+
+| flags/arguments | index + image size | notes |
+| --- | --- | --- |
+|  -convert_none | 1.7mb | No transform of images |
+| -convert_color | 819kb | Images resized to default 960px | 
+| -convert_color -maxwidth 680 | 432kb | Images resized to 680px |
+| -convert_greyscale | 405kb | Images lose colour infomation, resized to default 960px |
+| -convert_dither | 36kb | Images resized to 960px and dithered using default Atkinson method |  
+| -algorithm 8by8bayer -threshold 245 | 29kb | As above but using 8x8 Bayer method which has more contiguous blocks |   
+| -algorithm 8by8bayer -threshold 245 -maxwidth 680 | 17kb | As above but resized to 680 first |  
 
 ## Future Plans
 
@@ -96,4 +109,4 @@ Available dithering algorithms (from [DitherKt](https://github.com/fiskurgit/Dit
 
 ## Issues/To do
 
-* ...
+* Index links are in wrong order, need to maintain local day list when iterating, or iterate reversed...
