@@ -7,7 +7,6 @@ import org.intellij.markdown.parser.MarkdownParser
 import java.io.File
 import java.util.regex.Pattern
 
-import java.text.DecimalFormat
 import java.lang.StringBuilder
 
 /*
@@ -53,6 +52,20 @@ class Generator {
                 "-dither" -> Config.imageConversion = ImageProcessor.ImageConversion.DITHER
                 "-gzip" -> Config.gzip = true //not implemented yet
                 //Settings requiring arguments:
+                "-image_format" -> {
+                    if(argIndex + 1 < args.size){
+                        val imageFormat  = args[argIndex + 1]
+                            when(imageFormat){
+                                "png" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.PNG
+                                "jpeg" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_MED
+                                "jpeg_high" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_HI
+                                "jpeg_medium" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_MED
+                                "jpeg_low" -> Config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_LO
+                            }
+                    }else{
+                        Out.die("-image_format requires png, jpeg, jpeg_high, jpeg_medium, or jpeg_low")
+                    }
+                }
                 "-maxwidth" -> {
                     if(argIndex + 1 < args.size){
                         val maxWidthArg  = args[argIndex + 1].toIntOrNull()

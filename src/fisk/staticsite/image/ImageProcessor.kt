@@ -30,8 +30,6 @@ object ImageProcessor {
         DITHER
     }
 
-    var saveMode = ImageSaveFormat.JPEG_HI
-
     fun convertImage(saveDir: File, source: String): String?{
         return when(Config.imageConversion){
             ImageProcessor.ImageConversion.NONE -> null
@@ -97,7 +95,7 @@ object ImageProcessor {
     // Internal Private Methods:
 
     private fun getProcessedFilename(source: String): String{
-        return when(saveMode){
+        return when(Config.imageFormat){
             ImageSaveFormat.PNG -> source.substring(0, source.lastIndexOf(".")) + "_processed.png"
             ImageSaveFormat.JPEG_HI, ImageSaveFormat.JPEG_MED, ImageSaveFormat.JPEG_LO -> source.substring(0, source.lastIndexOf(".")) + "_processed.jpeg"
         }
@@ -108,7 +106,7 @@ object ImageProcessor {
         //Delete old files first
         deleteOldImage(outputFile)
 
-        val writer = when (saveMode) {
+        val writer = when (Config.imageFormat) {
             ImageSaveFormat.PNG -> ImageIO.getImageWritersByFormatName("png").next()
             else -> ImageIO.getImageWritersByFormatName("jpeg").next()
         }
@@ -119,7 +117,7 @@ object ImageProcessor {
             Out.d("canWriteCompressed: true")
             param.compressionMode = ImageWriteParam.MODE_EXPLICIT
 
-            when(saveMode){
+            when(Config.imageFormat){
                 ImageSaveFormat.PNG -> param.compressionQuality = 0.0f
                 ImageSaveFormat.JPEG_HI -> param.compressionQuality = 0.85f
                 ImageSaveFormat.JPEG_MED -> param.compressionQuality = 0.65f
