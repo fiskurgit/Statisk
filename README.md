@@ -76,7 +76,9 @@ The default image file format is .png, you can specify jpeg:
 
 ## Dithering
 
-_TODO_
+Available dithering algorithms (from [DitherKt](https://github.com/fiskurgit/DitherKt)):
+
+2by2Bayer, 3by3Bayer, 4by4Bayer, 5by3Bayer, 8by8Bayer, FloydSteinberg, FalseFloydSteinberg, NewspaperHalftone, JarvisJudiceNinke, Sierra, SierraLite, TwoRowSierra, Burkes, Atkinson, Stucki, ErrorDif, Threshold, Random
 
 ## Future Plans
 
