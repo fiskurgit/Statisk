@@ -23,7 +23,7 @@ import java.io.FileOutputStream
 
  */
 fun main(args: Array<String>) {
-    Generator().parseArguments(args)
+    Generator().parseStartupArguments(args)
 }
 
 class Generator {
@@ -35,20 +35,21 @@ class Generator {
     private var isSingle = false
     private var webroot: File? = null
 
+    var directoryArg: String? = null
+    var fileArg: String? = null
+    var templateArg: String? = null
+
     companion object {
         const val TEMPLATE = "_template.html"
 
-        val config = Config()
+        var config = Config()
+        var configBackup: Config? = null
     }
 
-    fun parseArguments(args: Array<String>) {
+    fun parseStartupArguments(args: Array<String>) {
         if (args.isEmpty() || args[0] == "help"){
             Out.help()
         }
-
-        var directoryArg: String? = null
-        var fileArg: String? = null
-        var templateArg: String? = null
 
         if(args.size == 1){
             val arg = args[0]
@@ -83,104 +84,7 @@ class Generator {
                 }
             }
         }else {
-
-            var argIndex = 0
-            args.forEach { arg ->
-                when (arg) {
-                    //Flags:
-                    "-convert_none" -> config.imageConversion = ImageProcessor.ImageConversion.NONE
-                    "-convert_greyscale" -> config.imageConversion = ImageProcessor.ImageConversion.GREYSCALE_SCALE
-                    "-convert_color" -> config.imageConversion = ImageProcessor.ImageConversion.COLOR_SCALE
-                    "-convert_dither" -> config.imageConversion = ImageProcessor.ImageConversion.DITHER
-                    "-gzip" -> config.gzip = true
-                    //Settings requiring arguments:
-                    "-image_format" -> {
-                        if (argIndex + 1 < args.size) {
-                            val imageFormat = args[argIndex + 1]
-                            when (imageFormat) {
-                                "png" -> config.imageFormat = ImageProcessor.ImageSaveFormat.PNG
-                                "jpeg" -> config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_MED
-                                "jpeg_high" -> config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_HI
-                                "jpeg_medium" -> config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_MED
-                                "jpeg_low" -> config.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_LO
-                            }
-                        } else {
-                            Out.die("-image_format requires png, jpeg, jpeg_high, jpeg_medium, or jpeg_low")
-                        }
-                    }
-                    "-maxwidth" -> {
-                        if (argIndex + 1 < args.size) {
-                            val maxWidthArg = args[argIndex + 1].toIntOrNull()
-                            if (maxWidthArg == null) {
-                                Out.die("Bad argument: -maxwidth requires a number")
-                            } else {
-                                config.maxImageWidth = maxWidthArg
-                            }
-                        } else {
-                            Out.die("-maxwidth requires number")
-                        }
-                    }
-                    "-algorithm" -> {
-                        if (argIndex + 1 < args.size) {
-                            val requestedAlgorithm = args[argIndex + 1]
-                            val filter = Filter.find(requestedAlgorithm)
-                            if (filter != null) {
-                                config.imageConversion = ImageProcessor.ImageConversion.DITHER
-                                config.ditherFilter = filter
-                            } else {
-                                Out.die("-algorithm filter $requestedAlgorithm not recognised, see -help for available options")
-                            }
-                        } else {
-                            Out.die("-algorithm requires a dithering algorithm, see -help for available options")
-                        }
-
-                    }
-                    "-threshold" -> {
-                        if (argIndex + 1 < args.size) {
-                            val thresholdArg = args[argIndex + 1].toIntOrNull()
-                            if (thresholdArg == null) {
-                                Out.die("Bad argument: -threshold requires a value in range 0 to 255")
-                            } else {
-                                config.threshold = thresholdArg
-                            }
-                        } else {
-                            Out.die("-threshold requires a value in range 0 to 255")
-                        }
-                    }
-                    "-foreground" -> {
-                        if (argIndex + 1 < args.size) {
-                            val foregroundArg = args[argIndex + 1]
-                            val foreground = Color.decode(foregroundArg)
-                            config.foregroundColor = foreground
-                        } else {
-                            Out.die("-threshold requires a value in range 0 to 255")
-                        }
-                    }
-                    "-dir" -> {
-                        if (argIndex + 1 < args.size) {
-                            directoryArg = args[argIndex + 1]
-                        } else {
-                            Out.die("-dir requires a directory")
-                        }
-                    }
-                    "-single" -> {
-                        if (argIndex + 1 < args.size) {
-                            fileArg = args[argIndex + 1]
-                        } else {
-                            Out.die("-dir requires a directory")
-                        }
-                    }
-                    "-template" -> {
-                        if (argIndex + 1 < args.size) {
-                            templateArg = args[argIndex + 1]
-                        } else {
-                            Out.die("-template requires a Statisk template to use")
-                        }
-                    }
-                }
-
-                argIndex++
-            }
+            extractArgs(args, config)
         }
 
         when {
@@ -197,6 +101,106 @@ class Generator {
                 build(fileArg!!, templateArg)
             }
             else -> Out.die("Bad arguments. see -help for usage instructions")
+        }
+    }
+
+    private fun extractArgs(args: Array<String>, cfg: Config){
+        var argIndex = 0
+        args.forEach { arg ->
+            when (arg) {
+                //Flags:
+                "-convert_none" -> cfg.imageConversion = ImageProcessor.ImageConversion.NONE
+                "-convert_greyscale" -> cfg.imageConversion = ImageProcessor.ImageConversion.GREYSCALE_SCALE
+                "-convert_color" -> cfg.imageConversion = ImageProcessor.ImageConversion.COLOR_SCALE
+                "-convert_dither" -> cfg.imageConversion = ImageProcessor.ImageConversion.DITHER
+                "-gzip" -> cfg.gzip = true
+                //Settings requiring arguments:
+                "-image_format" -> {
+                    if (argIndex + 1 < args.size) {
+                        val imageFormat = args[argIndex + 1]
+                        when (imageFormat) {
+                            "png" -> cfg.imageFormat = ImageProcessor.ImageSaveFormat.PNG
+                            "jpeg" -> cfg.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_MED
+                            "jpeg_high" -> cfg.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_HI
+                            "jpeg_medium" -> cfg.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_MED
+                            "jpeg_low" -> cfg.imageFormat = ImageProcessor.ImageSaveFormat.JPEG_LO
+                        }
+                    } else {
+                        Out.die("-image_format requires png, jpeg, jpeg_high, jpeg_medium, or jpeg_low")
+                    }
+                }
+                "-maxwidth" -> {
+                    if (argIndex + 1 < args.size) {
+                        val maxWidthArg = args[argIndex + 1].toIntOrNull()
+                        if (maxWidthArg == null) {
+                            Out.die("Bad argument: -maxwidth requires a number")
+                        } else {
+                            cfg.maxImageWidth = maxWidthArg
+                        }
+                    } else {
+                        Out.die("-maxwidth requires number")
+                    }
+                }
+                "-algorithm" -> {
+                    if (argIndex + 1 < args.size) {
+                        val requestedAlgorithm = args[argIndex + 1]
+                        val filter = Filter.find(requestedAlgorithm)
+                        if (filter != null) {
+                            cfg.imageConversion = ImageProcessor.ImageConversion.DITHER
+                            cfg.ditherFilter = filter
+                        } else {
+                            Out.die("-algorithm filter $requestedAlgorithm not recognised, see -help for available options")
+                        }
+                    } else {
+                        Out.die("-algorithm requires a dithering algorithm, see -help for available options")
+                    }
+
+                }
+                "-threshold" -> {
+                    if (argIndex + 1 < args.size) {
+                        val thresholdArg = args[argIndex + 1].toIntOrNull()
+                        if (thresholdArg == null) {
+                            Out.die("Bad argument: -threshold requires a value in range 0 to 255")
+                        } else {
+                            cfg.threshold = thresholdArg
+                        }
+                    } else {
+                        Out.die("-threshold requires a value in range 0 to 255")
+                    }
+                }
+                "-foreground" -> {
+                    if (argIndex + 1 < args.size) {
+                        val foregroundArg = args[argIndex + 1]
+                        val foreground = Color.decode(foregroundArg)
+                        config.foregroundColor = foreground
+                    } else {
+                        Out.die("-threshold requires a value in range 0 to 255")
+                    }
+                }
+                "-dir" -> {
+                    if (argIndex + 1 < args.size) {
+                        directoryArg = args[argIndex + 1]
+                    } else {
+                        Out.die("-dir requires a directory")
+                    }
+                }
+                "-single" -> {
+                    if (argIndex + 1 < args.size) {
+                        fileArg = args[argIndex + 1]
+                    } else {
+                        Out.die("-dir requires a directory")
+                    }
+                }
+                "-template" -> {
+                    if (argIndex + 1 < args.size) {
+                        templateArg = args[argIndex + 1]
+                    } else {
+                        Out.die("-template requires a Statisk template to use")
+                    }
+                }
+            }
+
+            argIndex++
         }
     }
 
@@ -325,17 +329,6 @@ class Generator {
         }
     }
 
-    private fun checkConfigOverride(file: File){
-        val firstLine = file.bufferedReader().use { it.readLine() }
-
-        Out.l("checkConfigOverride: $firstLine")
-
-        if(firstLine.startsWith("<!---")){
-            //There may be config override
-
-        }
-    }
-
     private fun parseMarkdown(mdFile: File, template: File, isIndex: Boolean){
         Out.l("parsing Markdown...")
 
@@ -402,7 +395,28 @@ class Generator {
         //reset byte counter
         pageBytes = 0L
 
+        if(configBackup != null) {
+            config = configBackup!!.copy()
+            configBackup = null
+        }
         //ends
+    }
+
+    private fun checkConfigOverride(file: File){
+        var firstLine = file.bufferedReader().use { it.readLine() }
+
+        Out.l("checkConfigOverride: $firstLine")
+
+        if(firstLine.startsWith("<!---") && firstLine.trim().endsWith("-->")){
+            configBackup = config.copy()
+
+            firstLine = firstLine.removePrefix("<!---")
+            firstLine = firstLine.removeSuffix("-->")
+            firstLine = firstLine.trim()
+
+            val argsOverride = firstLine.split(",").toTypedArray()
+            extractArgs(argsOverride, config)
+        }
     }
 
     private fun convertImages(saveDir: File, _html: String): String{

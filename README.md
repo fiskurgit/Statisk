@@ -82,6 +82,12 @@ Available dithering algorithms (from [DitherKt](https://github.com/fiskurgit/Dit
 
 2by2Bayer, 3by3Bayer, 4by4Bayer, 5by3Bayer, 8by8Bayer, FloydSteinberg, FalseFloydSteinberg, NewspaperHalftone, JarvisJudiceNinke, Sierra, SierraLite, TwoRowSierra, Burkes, Atkinson, Stucki, ErrorDif, Threshold, Random
 
+## Per-File Overrides
+
+You can override any global command-line configuration by adding a hidden comment on the first line of the markdown file, this is just a key value pair in the same way you'd pass on the command-line:
+
+* `<!--- -foreground,#cc00ff -->` - this will set the foreground dither for this markdown file only to purple
+
 ## Examples
 
 * `statisk -dir /Users/pip/pi/fisk_solar_website/ -algorithm 8by8bayer -threshold 255 -image_format png -maxwidth 800`
