@@ -414,7 +414,7 @@ class Generator {
             firstLine = firstLine.removeSuffix("-->")
             firstLine = firstLine.trim()
 
-            val argsOverride = firstLine.split(",").toTypedArray()
+            val argsOverride = firstLine.split(" ").toTypedArray()
             extractArgs(argsOverride, config)
         }
     }
