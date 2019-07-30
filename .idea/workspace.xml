@@ -53,8 +53,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="146" column="11" selection-start-line="146" selection-start-column="11" selection-end-line="146" selection-end-column="11" />
+            <state relative-caret-position="312">
+              <caret line="152" column="91" selection-start-line="152" selection-start-column="91" selection-end-line="152" selection-end-column="91" />
               <folding>
                 <element signature="e#31#355#0" expanded="true" />
               </folding>
@@ -191,7 +191,7 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564500378997" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564501716529" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -213,7 +213,7 @@
     <configuration name="Iterative" type="JetRunConfigurationType" factoryName="Kotlin">
       <module name="FiskStaticSite" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="-dir $USER_HOME$/pi/fisk_solar_website/ -algorithm 8by8bayer -threshold 245 -maxwidth 680 -foreground #ff00cc -gzip" />
+      <option name="PROGRAM_PARAMETERS" value="-dir $USER_HOME$/pi/fisk_solar_website/ -algorithm 8by8bayer -threshold 245 -maxwidth 960 -foreground #ff00cc -gzip" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PASS_PARENT_ENVS" value="true" />
@@ -273,16 +273,16 @@
     <frame x="1920" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49922958" visible="true" weight="0.14285715" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49848023" visible="true" weight="0.14285715" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Capture Tool" order="5" />
-      <window_info id="Favorites" order="6" sideWeight="0.5007704" side_tool="true" visible="true" weight="0.14285715" />
+      <window_info id="Favorites" order="6" sideWeight="0.50151974" side_tool="true" visible="true" weight="0.14285715" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32857144" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32857144" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32857144" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.44387755" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -291,7 +291,7 @@
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Flutter Performance" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.327551" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3377551" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.3377551" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -537,8 +537,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/fisk/staticsite/image/ImageProcessor.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="146" column="11" selection-start-line="146" selection-start-column="11" selection-end-line="146" selection-end-column="11" />
+        <state relative-caret-position="312">
+          <caret line="152" column="91" selection-start-line="152" selection-start-column="91" selection-end-line="152" selection-end-column="91" />
           <folding>
             <element signature="e#31#355#0" expanded="true" />
           </folding>

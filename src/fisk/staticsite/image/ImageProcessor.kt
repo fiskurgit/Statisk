@@ -150,7 +150,10 @@ object ImageProcessor {
     }
 
     private fun resize(src: BufferedImage, targetWidth: Int): BufferedImage {
-        val targetHeight =  src.height / (src.width/targetWidth)
+        val targetHeight = (src.height*(targetWidth.toFloat()/src.width.toFloat())).toInt()
+
+        Out.l("-------------------> Resizing image from ${src.width}x${src.height} to ${targetWidth}x$targetHeight")
+
         val bi = BufferedImage(targetWidth, targetHeight,
             if (src.transparency == Transparency.OPAQUE) BufferedImage.TYPE_INT_RGB else BufferedImage.TYPE_INT_ARGB
         )
