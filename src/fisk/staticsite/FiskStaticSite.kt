@@ -109,13 +109,13 @@ class Generator {
         args.forEach { arg ->
             when (arg) {
                 //Flags:
-                "-convert_none" -> cfg.imageConversion = ImageProcessor.ImageConversion.NONE
-                "-convert_greyscale" -> cfg.imageConversion = ImageProcessor.ImageConversion.GREYSCALE_SCALE
-                "-convert_color" -> cfg.imageConversion = ImageProcessor.ImageConversion.COLOR_SCALE
-                "-convert_dither" -> cfg.imageConversion = ImageProcessor.ImageConversion.DITHER
-                "-gzip" -> cfg.gzip = true
+                "-convert_none", "-cn" -> cfg.imageConversion = ImageProcessor.ImageConversion.NONE
+                "-convert_greyscale", "-cg" -> cfg.imageConversion = ImageProcessor.ImageConversion.GREYSCALE_SCALE
+                "-convert_color", "-cc" -> cfg.imageConversion = ImageProcessor.ImageConversion.COLOR_SCALE
+                "-convert_dither", "-cd" -> cfg.imageConversion = ImageProcessor.ImageConversion.DITHER
+                "-gzip", "-gz" -> cfg.gzip = true
                 //Settings requiring arguments:
-                "-image_format" -> {
+                "-image_format", "-if" -> {
                     if (argIndex + 1 < args.size) {
                         val imageFormat = args[argIndex + 1]
                         when (imageFormat) {
@@ -129,7 +129,7 @@ class Generator {
                         Out.die("-image_format requires png, jpeg, jpeg_high, jpeg_medium, or jpeg_low")
                     }
                 }
-                "-maxwidth" -> {
+                "-maxwidth", "-mw" -> {
                     if (argIndex + 1 < args.size) {
                         val maxWidthArg = args[argIndex + 1].toIntOrNull()
                         if (maxWidthArg == null) {
@@ -141,7 +141,7 @@ class Generator {
                         Out.die("-maxwidth requires number")
                     }
                 }
-                "-algorithm" -> {
+                "-algorithm", "-al" -> {
                     if (argIndex + 1 < args.size) {
                         val requestedAlgorithm = args[argIndex + 1]
                         val filter = Filter.find(requestedAlgorithm)
@@ -156,7 +156,7 @@ class Generator {
                     }
 
                 }
-                "-threshold" -> {
+                "-threshold", "-th" -> {
                     if (argIndex + 1 < args.size) {
                         val thresholdArg = args[argIndex + 1].toIntOrNull()
                         if (thresholdArg == null) {
@@ -168,7 +168,7 @@ class Generator {
                         Out.die("-threshold requires a value in range 0 to 255")
                     }
                 }
-                "-foreground" -> {
+            "-foreground", "-fg" -> {
                     if (argIndex + 1 < args.size) {
                         val foregroundArg = args[argIndex + 1]
                         val foreground = Color.decode(foregroundArg)
