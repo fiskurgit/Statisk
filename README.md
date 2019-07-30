@@ -29,11 +29,12 @@ Converts Markdown files to simple Html with support for extreme image size reduc
 </html>
 ```
 
-An `index.md` in the root should include `{{ posts }}` where a list of posts will be rendered.
+A home `index.md` in the root should include `{{ posts }}` where a list of posts will be rendered.
 
 Markdown posts need to be in a Year/Month/Day (`YYYY/MM/DD`) directory structure:
 <pre style="font-family: monospace;">
-|-_layout.html  
+|- _layout.html  
+|- index.md
 |- 2020/  
     |- 01/ 
         |-20/ 
@@ -52,7 +53,7 @@ Markdown posts need to be in a Year/Month/Day (`YYYY/MM/DD`) directory structure
 ## Usage
 
 * `statisk path/to/websiteroot/` - Statisk will iterate over the directories and convert the markdown and images using default settings
-* `statisk index.md` - Convert single post and images, Statisk will look for `_template.html` three directories up in the hierarchy
+* `statisk index.md` - Convert single post and any images, Statisk will look for `_template.html` three directories up in the hierarchy
 * `statisk index.md path/to/_a_new_template.html` - Convert single post and images using the supplied template, useful when redesigning a site.
 * `statisk -single index.md  -template path/to/_a_new_template.html` - As above but with explicit arguments.
 
@@ -86,7 +87,7 @@ Available dithering algorithms (from [DitherKt](https://github.com/fiskurgit/Dit
 
 You can override any global command-line configuration by adding a hidden comment on the first line of the markdown file, this is just a key value pair in the same way you'd pass on the command-line:
 
-* `<!--- -foreground #cc00ff -->` - this will set the foreground dither for this markdown file only to purple
+* `<!--- -foreground #ffcdcd -algorithm 5by3Bayer -threshold 100 -->` - this will set the foreground dither for this markdown file only to purple
 
 ## Examples
 

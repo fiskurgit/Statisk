@@ -367,8 +367,8 @@ class Generator {
         val outputFile = File(mdFile.dir(), mdFile.nameWithoutExtension + ".html")
         outputFile.writeText(output, Charsets.UTF_8)
 
+        val gzipFile = File(mdFile.dir(), mdFile.nameWithoutExtension + ".gz")
         if(config.gzip){
-            val gzipFile = File(mdFile.dir(), mdFile.nameWithoutExtension + ".gz")
             val gzipFOS = FileOutputStream(gzipFile)
             gzipFOS.use { fos ->
                 val writer = OutputStreamWriter(GZIPOutputStream(fos), "UTF-8")
@@ -376,6 +376,9 @@ class Generator {
                     osw.write(output)
                 }
             }
+        }else{
+            //Make sure to remove any old stale gzipped files:
+            if(gzipFile.exists()) gzipFile.delete()
         }
 
         Out.l("${mdFile.name} converted to ${outputFile.name}")
