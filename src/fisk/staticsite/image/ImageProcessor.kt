@@ -149,15 +149,8 @@ object ImageProcessor {
         }
     }
 
-    private fun resize(src: BufferedImage, targetSize: Int): BufferedImage {
-        var targetWidth = targetSize
-        var targetHeight = targetSize
-        val ratio = src.height.toFloat() / src.width.toFloat()
-        if (ratio <= 1) { //square or landscape-oriented image
-            targetHeight = Math.ceil((targetWidth.toFloat() * ratio).toDouble()).toInt()
-        } else { //portrait image
-            targetWidth = Math.round(targetHeight.toFloat() / ratio)
-        }
+    private fun resize(src: BufferedImage, targetWidth: Int): BufferedImage {
+        val targetHeight =  src.height / (src.width/targetWidth)
         val bi = BufferedImage(targetWidth, targetHeight,
             if (src.transparency == Transparency.OPAQUE) BufferedImage.TYPE_INT_RGB else BufferedImage.TYPE_INT_ARGB
         )
