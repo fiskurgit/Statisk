@@ -2,6 +2,8 @@ package fisk.staticsite
 
 object Out {
 
+    private var loggingOn = false
+
     fun welcome(){
         l("")
         l("S T A T I S K Site Generator")
@@ -41,11 +43,15 @@ object Out {
     }
 
     fun l(message: String) {
+        if(loggingOn) println(message)
+    }
+
+    fun ll(message: String) {
         println(message)
     }
 
     fun d(message: String) {
-        println("DEBUG: $message")
+        if(loggingOn) println("DEBUG: $message")
     }
 
     fun die(message: String) {

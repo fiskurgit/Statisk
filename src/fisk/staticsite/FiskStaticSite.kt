@@ -28,7 +28,6 @@ fun main(args: Array<String>) {
 
 class Generator {
 
-    data class Link(val date: String, val title: String, val link: String)
     private var links = mutableListOf<Link>()
 
     private var pageBytes = 0L
@@ -38,6 +37,10 @@ class Generator {
     var directoryArg: String? = null
     var fileArg: String? = null
     var templateArg: String? = null
+
+    var year: Int = 0
+    var month: Int = 0
+    var day: Int = 0
 
     companion object {
         const val TEMPLATE = "_template.html"
@@ -256,7 +259,9 @@ class Generator {
 
                             val linkBuilder = StringBuilder()
 
-                            links.asReversed().forEach {link ->
+                            val sorted = links.sorted()
+
+                            sorted.reversed().forEach {link ->
                                 Out.d("Add link: ${link.date} title: ${link.title} href: ${link.link}")
 
                                 linkBuilder.append("<a href=\"")
@@ -298,6 +303,7 @@ class Generator {
                 Out.d("Found directory: $fileInRoot")
 
                 if(fileInRoot.name.isYear()){
+                    year = fileInRoot.name.toInt()
                     scanMonths(fileInRoot, template)
                 }
             }
@@ -308,7 +314,10 @@ class Generator {
         Out.l("Processing year: ${root.name}")
         root.listFiles().forEach { fileInRoot ->
             when {
-                fileInRoot.isDirectory && fileInRoot.name.isMonthOrDay() -> scanDays(fileInRoot, template)
+                fileInRoot.isDirectory && fileInRoot.name.isMonthOrDay() -> {
+                    month = fileInRoot.name.toInt()
+                    scanDays(fileInRoot, template)
+                }
             }
         }
     }
@@ -317,6 +326,7 @@ class Generator {
         Out.l("Processing month: ${root.name}")
         root.listFiles().forEach { fileInRoot ->
             if(fileInRoot.isDirectory && fileInRoot.name.isMonthOrDay()){
+                day = fileInRoot.name.toInt()
                 Out.l("Processing day: ${fileInRoot.name}")
                 fileInRoot.listFiles().forEach {dayFile ->
                     Out.l("Inspecting file: " + dayFile.name)
@@ -389,7 +399,11 @@ class Generator {
             Out.d("hrefLink: $hrefLink")
 
             val dateLabel = outputFile.dateLabel()
-            val link = Link(dateLabel, title, hrefLink)
+            val link = Link(dateLabel, title, hrefLink, year, month, day)
+
+            //monthLinks.add(link)
+
+            Out.ll(">> " + link.date + ": " + link.title)
             links.add(link)
 
             Out.l("")

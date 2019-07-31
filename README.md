@@ -108,13 +108,10 @@ You can override any global command-line configuration by adding a hidden commen
 
 ## Future Plans
 
+* Refactor this sorry mess
 * RSS feed
 
 ### Links
 
 * https://github.com/lowtechmag/solar/wiki/Solar-Web-Design
 * http://nginx.org/en/docs/http/ngx_http_gzip_static_module.html
-
-## Issues/To do
-
-* Index links are in wrong order, need to maintain local day list when iterating, or iterate reversed...
