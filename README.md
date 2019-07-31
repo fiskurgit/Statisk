@@ -2,8 +2,6 @@
 
 Static site generator heavily inspired by [Low←Tech Magazine](https://solar.lowtechmagazine.com/)
 
-Work in progress/a hacky mess. DO NOT USE.
-
 Converts Markdown files to simple Html with support for extreme image size reduction for low-bandwidth web pages.
 
 ![screenshot](screenshot.png)
