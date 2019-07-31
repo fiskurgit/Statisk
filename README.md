@@ -93,7 +93,7 @@ You can override any global command-line configuration by adding a hidden commen
 
 ## Full Syntax
 
-| Argument | Shortcut | Behaviour | Requires Argument |
+| Argument | Shortcut | Behaviour | Requires Parameter |
 | --- | --- | --- | --- |
 | `-image_format` | `-if` | Override default image format, eg. `-if jpeg_high` | Yes |
 | `-maxwidth` | `-mw` | Override default image width, eg. `-mw 800` | Yes |
