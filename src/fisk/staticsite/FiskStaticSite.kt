@@ -177,7 +177,7 @@ class Generator {
                         val foreground = Color.decode(foregroundArg)
                         config.foregroundColor = foreground
                     } else {
-                        Out.die("-threshold requires a value in range 0 to 255")
+                        Out.die("-foreground requires a colour in the form #ff00cc")
                     }
                 }
                 "-dir" -> {
