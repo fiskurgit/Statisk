@@ -86,10 +86,16 @@ You can override any global command-line configuration by adding a hidden commen
 * Refactor this sorry mess
 * RSS feed
 
-### Links
+### Various Links
 
+* https://idlewords.com/talks/website_obesity.htm
 * https://github.com/lowtechmag/solar/wiki/Solar-Web-Design
 * http://nginx.org/en/docs/http/ngx_http_gzip_static_module.html
+* https://emreed.net/LowTech_Directory.html
+* http://motherfuckingwebsite.com/
+* http://bettermotherfuckingwebsite.com/
+* https://thebestmotherfucking.website/
+* https://perfectmotherfuckingwebsite.com/
 
 ## Full Syntax
 
