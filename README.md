@@ -110,6 +110,7 @@ You can override any global command-line configuration by adding a hidden commen
 | `-algorithm` | `-al` | Sets dither algorithm, eg. `-al stucki` | Yes |
 | `-threshold` | `-th` | Set threshold of dither algorithms, eg. `-th  255` | Yes |
 | `-foreground` | `-fg` | Set the colour of dithered images, eg. `-fg #dd0000` | Yes |
+| `-background` | `-bg` | Override the default body css, eg. `-bg #efeeee` | Yes |
 | `-dir` | | Set the website root directory | Yes |
 | `-single` | | Set a single markdown file to process | Yes |
 | `-template` | | Set template html file | Yes |

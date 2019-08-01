@@ -171,11 +171,20 @@ class Generator {
                         Out.die("-threshold requires a value in range 0 to 255")
                     }
                 }
-            "-foreground", "-fg" -> {
+                "-foreground", "-fg" -> {
                     if (argIndex + 1 < args.size) {
                         val foregroundArg = args[argIndex + 1]
                         val foreground = Color.decode(foregroundArg)
                         config.foregroundColor = foreground
+                    } else {
+                        Out.die("-foreground requires a colour in the form #ff00cc")
+                    }
+                }
+                "-background", "-bg" -> {
+                    if (argIndex + 1 < args.size) {
+                        val backgroundArg = args[argIndex + 1]
+                        val background = Color.decode(backgroundArg)
+                        config.backgroundColor = background
                     } else {
                         Out.die("-foreground requires a colour in the form #ff00cc")
                     }
@@ -374,6 +383,10 @@ class Generator {
         pageBytes += output.toByteArray().size
         output = output.replace("{{ page_size }}", "Page size including images: ${pageBytes.bytesToLabel()}")
 
+        if(config.backgroundColor != null){
+            output = overrideBackgroundColor(output, config.backgroundColor!!)
+        }
+
         val outputFile = File(mdFile.dir(), mdFile.nameWithoutExtension + ".html")
         outputFile.writeText(output, Charsets.UTF_8)
 
@@ -417,6 +430,11 @@ class Generator {
             configBackup = null
         }
         //ends
+    }
+
+    private fun overrideBackgroundColor(output: String, backgroundColor: Color): String {
+        val backgroundStr = String.format("#%02x%02x%02x", backgroundColor.red, backgroundColor.green, backgroundColor.blue)
+        return output.replace("<body ", "<body style=\"background-color:$backgroundStr\" ")
     }
 
     private fun checkConfigOverride(file: File){

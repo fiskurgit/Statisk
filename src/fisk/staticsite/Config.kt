@@ -15,5 +15,7 @@ data class Config(
 
 
     var maxImageWidth: Int = 960,
-    var gzip: Boolean = false
+    var gzip: Boolean = false,
+
+    var backgroundColor: Color? = null
 )
