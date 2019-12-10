@@ -1,5 +1,7 @@
 # Statisk
 
+## Note: this project is not being developed further, see the wip Python port instead: [PyStatisk](https://github.com/fiskurgit/PyStatisk)
+
 Static site generator heavily inspired by [Low←Tech Magazine](https://solar.lowtechmagazine.com/)
 
 Converts Markdown files to simple Html with support for extreme image size reduction for low-bandwidth web pages.
